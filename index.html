@@ -361,6 +361,23 @@ section { padding: 8rem 5rem; position: relative; }
   padding-bottom:.7rem; border-bottom:1px solid var(--border);
 }
 .skills-columns { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
+.skill-item { margin-bottom:1.5rem; }
+.skill-row { display:flex; justify-content:space-between; font-size:.82rem; color:var(--text); margin-bottom:.55rem; }
+.skill-pct { color:var(--muted); font-size:.74rem; }
+.skill-bar { height:2px; background:rgba(108,196,125,.1); border-radius:1px; }
+.skill-fill {
+  height:100%;
+  background:linear-gradient(to right, var(--green), var(--sage));
+  border-radius:1px;
+  transform-origin:left; transform:scaleX(0);
+  transition:transform 1.1s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.skill-fill.go { transform:scaleX(1); }
+.skill-fill::after {
+  content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
+  width:5px; height:5px; background:var(--sage); border-radius:50%;
+}
 .tools-wrap { margin-top:2.5rem; }
 .tools-grid { display:flex; flex-wrap:wrap; gap:.5rem; }
 .tool-pill {
@@ -458,6 +475,7 @@ footer {
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
   <div class="lb-inner">
     <button class="lb-close" id="lbClose">✕</button>
@@ -474,21 +492,23 @@ footer {
   </div>
 </div>
 
+<!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">PH<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#projects">Work</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
-    <li><a href="resume.html">Resume</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-depth"></div>
+  <!-- Fireflies injected by JS -->
   <div class="hero-eyebrow" id="hero-eyebrow">3D Character &amp; Creature Artist — Animation &amp; Gaming</div>
   <h1 class="hero-title">
     <span class="line1" id="hero-line1">PERCY</span>
@@ -507,6 +527,7 @@ footer {
   <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
   <div class="projects-header">
     <div>
@@ -518,9 +539,11 @@ footer {
     </p>
   </div>
   <div class="masonry-grid" id="projects-grid">
-    </div>
+    <!-- Rendered by JS -->
+  </div>
 </section>
 
+<!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div class="about-visual reveal">
@@ -541,7 +564,9 @@ footer {
       <div class="section-tag reveal">About Me</div>
       <h2 class="reveal" id="about-heading">Bringing creatures<br><em>to life in 3D.</em></h2>
       <div id="about-bio">
-        </div>
+        <p class="reveal">I'm a 3D Character Artist based in Orlando, FL, specializing in creature design and full character pipelines for games and animation. I have a deep love for organic sculpting — from apex predators with scale-by-scale surface detail to expressive companion creatures built for film.</p>
+        <p class="reveal">Currently pursuing my BFA in Emerging Media (Animation &amp; Visualization) at UCF, I've contributed creature art and rigging to student short films, completed an independent study in advanced creature design, and taken on freelance character commissions — all while building my full pipeline from anatomy to game-ready asset.</p>
+      </div>
       <div class="about-edu reveal">
         <div class="about-edu-tag">Education</div>
         <div class="about-edu-name" id="edu-name">University of Central Florida</div>
@@ -556,39 +581,23 @@ footer {
   </div>
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
   <div class="section-tag reveal">Expertise</div>
   <h2 class="section-title reveal">Skills &amp;<br><em>Tools.</em></h2>
   <div class="skills-layout">
     <div>
-      <p class="reveal" id="skills-intro"></p>
+      <p class="reveal" id="skills-intro">A full-pipeline creature artist — equally at home sculpting in ZBrush or shipping assets into Unreal Engine 5. Adobe Certified Professional in After Effects.</p>
       <div class="tools-wrap reveal" style="transition-delay:.1s">
         <div class="skill-group-title" style="margin-top:2.5rem">Software</div>
         <div class="tools-grid" id="tools-grid"></div>
       </div>
     </div>
-    <div class="skills-columns" id="skills-columns">
-      <div class="reveal" style="transition-delay:0.15s">
-        <div class="skill-group-title">Core Competencies</div>
-        <div style="display:flex; flex-direction:column; gap:1.2rem;">
-          <div>
-            <h4 style="color:var(--text); font-size:.9rem; margin-bottom:.3rem;">Anatomy & Organic Form</h4>
-            <p style="color:var(--muted); font-size:.8rem; line-height:1.6;">Deep understanding of underlying skeletal and muscular structures to create believable, biomechanically functional creatures.</p>
-          </div>
-          <div>
-            <h4 style="color:var(--text); font-size:.9rem; margin-bottom:.3rem;">Fur & Hair Workflows</h4>
-            <p style="color:var(--muted); font-size:.8rem; line-height:1.6;">Proficient in utilizing FiberShop and GS Curve Tool to author optimized, realistic hair and fur cards for real-time engines.</p>
-          </div>
-          <div>
-            <h4 style="color:var(--text); font-size:.9rem; margin-bottom:.3rem;">Game-Ready Pipelines</h4>
-            <p style="color:var(--muted); font-size:.8rem; line-height:1.6;">Translating high-fidelity sculpts into optimized, fully rigged, and PBR-textured assets integrated seamlessly into Unreal Engine 5.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="skills-columns" id="skills-columns"></div>
   </div>
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
   <div class="section-tag reveal">Get In Touch</div>
   <h2 class="section-title reveal">Let's Create<br><em>Something.</em></h2>
@@ -615,14 +624,13 @@ footer {
     <a href="#projects">Work</a>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
-    <a href="resume.html">Resume</a>
     <a href="#contact">Contact</a>
   </nav>
 </footer>
 
 <script>
 /* ═══════════════════════════════════════
-   DEFAULT CONTENT 
+   DEFAULT CONTENT  (edit via admin.html)
 ═══════════════════════════════════════ */
 const DEFAULTS = {
   meta: { name:"Percy Holway", title:"Percy Holway — 3D Character Artist", year:"2026" },
@@ -637,8 +645,8 @@ const DEFAULTS = {
     yearsCreating:"4+", photo:"", initials:"PH",
     heading:"Bringing creatures<br><em>to life in 3D.</em>",
     paragraphs:[
-      "I'm a 3D Character Artist based in Orlando, FL, specializing in creature design and production pipelines for games and animation. My approach is grounded in a deep study of zoology and practical herpetology. Caring for and studying reptiles allows me to translate real-world biological mechanics and scale-by-scale anatomy into believable, production-ready creatures.",
-      "Currently pursuing my BFA in Emerging Media (Animation & Visualization) at UCF, my focus is on realistic creature work—from authoring complex fur systems to real-time engine optimization. I have collaborated on student short films, managed client feedback loops as a freelance character artist, and continually strive to push the technical boundaries of my assets."
+      "I'm a 3D Character Artist based in Orlando, FL, specializing in creature design and full character pipelines for games and animation. I have a deep love for organic sculpting — from apex predators with scale-by-scale surface detail to expressive companion creatures built for film.",
+      "Currently pursuing my BFA in Emerging Media (Animation & Visualization) at UCF, I've contributed creature art and rigging to student short films, completed an independent study in advanced creature design, and taken on freelance character commissions — all while building my full pipeline from anatomy to game-ready asset."
     ],
     education:{
       institution:"University of Central Florida",
@@ -652,11 +660,12 @@ const DEFAULTS = {
     ]
   },
   projects:[
+    projects:[
     {
       id:"hector",
       title:"Hector — Eel Creature Model",
-      tags:["Creature","Full Pipeline","PBR Textured"],
-      desc:"Created a full creature pipeline as an individual project. Focus on dynamic posing and high-fidelity surface detail translated into optimized topology.",
+      tags:["Creature","Full Pipeline","PBR Textured","2025"],
+      desc:"Full creature pipeline — ZBrush sculpt, Maya retopology & rigging prep, PBR texturing in Substance Painter. Dynamic pose showcasing scale work and fin detail.",
       images:[
         "Portfolio Images/Hector/EelLad01.png",
         "Portfolio Images/Hector/EelLad02.png",
@@ -668,8 +677,8 @@ const DEFAULTS = {
     {
       id:"serpent",
       title:"Aetheria — Advanced Creature Study",
-      tags:["Thesis","ZBrush","UE5","Hair Systems"],
-      desc:"Responsible for all aspects of modeling, rigging, and texturing for an independent study. Built custom Alphas and utilized FiberShop/GS Curve Tool for hair solutions, drastically cutting manual texturing time.",
+      tags:["Thesis","Creature","ZBrush","UE5"],
+      desc:"Independent study thesis piece. Full ZBrush & Maya pipeline synthesizing the power of an American Alligator with the serpentine elegance of a False-Water Cobra and Boa Imperator, balanced by the lean features of a Pine Marten.",
       images:[
         "Portfolio Images/Thesis Creature/serpent_faceclose.jpg",
         "Portfolio Images/Thesis Creature/serpent_sideclose.jpg",
@@ -684,7 +693,7 @@ const DEFAULTS = {
       id:"zigmol",
       title:"Zigmol — Mol's Morsels",
       tags:["Character","Short Film","Rigged"],
-      desc:"Collaborated within a student production pipeline. Sculpted, retopologized, and delivered a fully rigged hero creature with zero rig corrections required during the animation phase.",
+      desc:"Hero creature for short film. Full sculpt, retopo, and rigging — zero rig corrections during animation. Delivered one week ahead of deadline.",
       images:[
         "Portfolio Images/Zigmol/mol.png",
         "Portfolio Images/Zigmol/mol2.png",
@@ -699,7 +708,7 @@ const DEFAULTS = {
       id:"gar",
       title:"Alligator Gar — Anatomy Study",
       tags:["Anatomy","Creature","ZBrush"],
-      desc:"Anatomy study of the prehistoric alligator gar. Focus on capturing underlying skeletal landmarks, fin rays, and accurate proportion from biological reference.",
+      desc:"Anatomy study of the prehistoric alligator gar — fin rays, lateral line, and elongated rostrum sculpted from reference.",
       images:[
         "Portfolio Images/Alligator Gar/Side Render.jpg",
         "Portfolio Images/Alligator Gar/Side posed.jpg",
@@ -718,7 +727,7 @@ const DEFAULTS = {
       id:"deer",
       title:"Deer Creature",
       tags:["Creature","ZBrush","WIP"],
-      desc:"3D creature sculpt exploring mammalian anatomy, muscle insertion points, and quadrupedal forms.",
+      desc:"3D creature sculpt exploring anatomy and quadrupedal forms.",
       images:[
         "Portfolio Images/Deer Creature/1.jpg",
         "Portfolio Images/Deer Creature/2.jpg",
@@ -730,7 +739,7 @@ const DEFAULTS = {
       id:"hand",
       title:"Human Hand Study",
       tags:["Anatomy","ZBrush","Render"],
-      desc:"Anatomical hand sculpt studying tendon flow, knuckle structure, and surface vein integration. Rendered in Marmoset.",
+      desc:"Anatomical hand sculpt studying tendon, knuckle, and surface vein structure. Rendered in Marmoset.",
       images:[
         "Portfolio Images/Hand/HandRender.jpg",
         "Portfolio Images/Hand/Hand1.jpg"
@@ -739,9 +748,12 @@ const DEFAULTS = {
     }
   ],
   skills:{
-    intro:"A specialized 3D creature artist focused on high-fidelity, game-ready assets. My pipeline bridges anatomical research with technical execution. Adobe Certified Professional in Visual Effects & Motion Graphics (After Effects).",
-    software:["ZBrush","Autodesk Maya","Substance 3D Painter","Unreal Engine 5","FiberShop / GS Curve Tool","Marmoset Toolbag","After Effects","Premiere Pro","Photoshop","Illustrator","ToonBoom Harmony","Blender"],
-    groups:[] 
+    intro:"A full-pipeline creature artist — equally at home sculpting in ZBrush or shipping assets into Unreal Engine 5. Adobe Certified Professional in After Effects.",
+    software:["ZBrush","Autodesk Maya","Substance 3D Painter","Unreal Engine 5","After Effects","Premiere Pro","Photoshop","Illustrator","ToonBoom Harmony","Marmoset Toolbag","Marvelous Designer","Blender"],
+    groups:[
+      {title:"Character Art",items:[{name:"Organic Sculpting",pct:96},{name:"Retopology",pct:90},{name:"UV Unwrapping",pct:88},{name:"Character Rigging (IK/FK)",pct:82},{name:"3D & 2D Animation",pct:78}]},
+      {title:"Texturing & Production",items:[{name:"PBR Texturing",pct:92},{name:"Real-Time Rendering (UE5)",pct:80},{name:"Motion Graphics & VFX",pct:88},{name:"Concept Art & Storyboarding",pct:80},{name:"Compositing",pct:84}]}
+    ]
   },
   contact:{
     intro:"Whether you're a studio looking for a creature artist, a director building a team, or a fellow artist wanting to collaborate — I'd love to hear from you.",
@@ -752,6 +764,18 @@ const DEFAULTS = {
     linkedinHandle:"LinkedIn — Add Your URL"
   }
 };
+
+/* ═══════════════════════════════════════
+   LOAD SAVED CONTENT (from admin edits)
+═══════════════════════════════════════ */
+function loadContent() {
+  try {
+    const s = localStorage.getItem('ph_portfolio');
+    if (s) return JSON.parse(s);
+  } catch(e){}
+  return null;
+}
+const C = loadContent() || DEFAULTS;
 
 /* ═══════════════════════════════════════
    APPLY CONTENT
@@ -806,6 +830,15 @@ document.getElementById('projects-grid').innerHTML = C.projects.map((p,i) => `
 // Skills
 document.getElementById('skills-intro').textContent = C.skills.intro;
 document.getElementById('tools-grid').innerHTML = C.skills.software.map(s=>`<span class="tool-pill">${esc(s)}</span>`).join('');
+document.getElementById('skills-columns').innerHTML = C.skills.groups.map((g,i)=>`
+  <div class="reveal" style="transition-delay:${(i*.15).toFixed(2)}s">
+    <div class="skill-group-title">${esc(g.title)}</div>
+    ${g.items.map(item=>`
+      <div class="skill-item">
+        <div class="skill-row"><span>${esc(item.name)}</span><span class="skill-pct">${item.pct}%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:${item.pct/100}"></div></div>
+      </div>`).join('')}
+  </div>`).join('');
 
 // Contact
 document.getElementById('contact-intro').textContent = C.contact.intro;
@@ -868,6 +901,19 @@ const ro=new IntersectionObserver(entries=>
   {threshold:.08}
 );
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ═══════════════════════════════════════
+   SKILL BARS
+═══════════════════════════════════════ */
+const bo=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.width=(parseFloat(e.target.style.getPropertyValue('--w'))*100)+'%';
+      e.target.classList.add('go');
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.skill-fill').forEach(b=>{b.style.width='0%';bo.observe(b);});
 
 /* ═══════════════════════════════════════
    LIGHTBOX
