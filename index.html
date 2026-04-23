@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Percy Holway — 3D Character Artist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root {
+  --bg:   #070e08;
+  --bg2:  #0c1a0d;
+  --bg3:  #111f12;
+  --green: #6cc47d;
+  --sage:  #9dc4a4;
+  --blue:  #79b2c5;
+  --text:  #e0eae1;
+  --muted: #688869;
+  --border: rgba(108,196,125,0.13);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ─────────────────────────── */
+.cursor {
+  position: fixed; width: 7px; height: 7px;
+  background: var(--green); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+}
+.cursor-ring {
+  position: fixed; width: 30px; height: 30px;
+  border: 1px solid rgba(108,196,125,0.4); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width .22s, height .22s, border-color .22s;
+}
+.cursor-ring.expand { width: 50px; height: 50px; border-color: var(--sage); }
+
+/* ── NAV ─────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 1.8rem 5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(7,14,8,.97), transparent);
+}
+.nav-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem; font-weight: 900; letter-spacing: .04em;
+  color: var(--text); text-decoration: none;
+}
+.nav-logo span { color: var(--green); font-style: italic; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  color: var(--muted); text-decoration: none;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  transition: color .3s; font-weight: 500;
+}
+.nav-links a:hover { color: var(--green); }
+
+/* ── HERO ────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 5rem 5rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 75% 25%, rgba(108,196,125,.07), transparent 55%),
+    radial-gradient(ellipse 40% 50% at 15% 75%, rgba(121,178,197,.06), transparent 55%);
+}
+.hero-grid {
+  position: absolute; inset: 0; opacity: .025;
+  background-image:
+    linear-gradient(rgba(108,196,125,1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,196,125,1) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.hero-depth {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+  background: linear-gradient(to top, var(--bg), transparent);
+}
+
+/* Fireflies */
+.firefly {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  animation: flyGlow var(--dur, 8s) var(--delay, 0s) infinite ease-in-out;
+}
+@keyframes flyGlow {
+  0%   { opacity: 0; transform: translate(0,0) scale(1); }
+  20%  { opacity: var(--peak, .6); }
+  50%  { opacity: .15; transform: translate(var(--dx,30px), var(--dy,-40px)) scale(1.5); }
+  80%  { opacity: var(--peak, .5); }
+  100% { opacity: 0; transform: translate(0,0) scale(1); }
+}
+
+.hero-eyebrow {
+  font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  opacity: 0; animation: fadeUp .7s .3s forwards;
+}
+.hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--sage); }
+
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(5rem,13vw,13rem);
+  line-height: .88; letter-spacing: .01em; font-weight: 900;
+}
+.hero-title .line1 {
+  display: block; color: var(--text);
+  opacity: 0; animation: fadeUp .7s .5s forwards;
+}
+.hero-title .line2 {
+  display: block;
+  -webkit-text-stroke: 1px rgba(108,196,125,.4);
+  color: transparent;
+  opacity: 0; animation: fadeUp .7s .65s forwards;
+}
+.hero-title .accent { -webkit-text-stroke: 1px var(--green); color: transparent; }
+
+.hero-bottom {
+  margin-top: 3rem;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  opacity: 0; animation: fadeUp .7s .85s forwards;
+}
+.hero-desc {
+  max-width: 380px; font-size: .93rem; line-height: 1.9;
+  color: var(--muted);
+  border-left: 1px solid var(--border); padding-left: 1.5rem;
+}
+.hero-desc strong { color: var(--text); font-weight: 400; }
+.hero-cta { display: flex; gap: 1rem; align-items: center; }
+
+.btn-primary {
+  background: var(--green); color: var(--bg);
+  padding: .85rem 2rem; border: none; border-radius: 2px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .74rem; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; text-decoration: none;
+  cursor: none; transition: background .3s, transform .2s; display: inline-block;
+}
+.btn-primary:hover { background: var(--sage); transform: translateY(-2px); }
+
+.btn-ghost {
+  border: 1px solid var(--border); color: var(--muted);
+  padding: .85rem 2rem; border-radius: 2px;
+  font-size: .74rem; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; text-decoration: none;
+  cursor: none; transition: border-color .3s, color .3s, transform .2s; display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+.scroll-hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  opacity: 0; animation: fadeIn .7s 1.4s forwards;
+}
+.scroll-hint span { font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--green), transparent);
+  animation: scrollPulse 2s infinite;
+}
+
+/* ── SHARED SECTION ─────────────────── */
+section { padding: 8rem 5rem; position: relative; }
+
+.section-tag {
+  font-size: .68rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .8rem;
+}
+.section-tag::before { content:''; display:block; width:22px; height:1px; background:var(--green); }
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem,6vw,5.5rem);
+  line-height: .92; letter-spacing: .01em; font-weight: 900;
+  color: var(--text); margin-bottom: 4rem;
+}
+.section-title em { color: var(--green); font-style: italic; }
+
+/* ── ABOUT ───────────────────────────── */
+#about { background: var(--bg); border-top: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 7rem; align-items: center; }
+
+.about-visual { position: relative; }
+.about-img-wrap { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; }
+.about-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  filter: brightness(.88) contrast(1.05); transition: transform .6s ease;
+}
+.about-img-wrap:hover img { transform: scale(1.03); }
+.about-frame-tl,.about-frame-br { position:absolute; width:28px; height:28px; z-index:2; }
+.about-frame-tl { top:-1px; left:-1px; border-top:2px solid var(--green); border-left:2px solid var(--green); }
+.about-frame-br { bottom:-1px; right:-1px; border-bottom:2px solid var(--green); border-right:2px solid var(--green); }
+.about-placeholder {
+  width:100%; height:100%; background:var(--bg3); border:1px solid var(--border);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem;
+}
+.about-initials {
+  font-family: 'Fraunces', serif; font-size: 6rem; font-weight: 900;
+  color: rgba(108,196,125,.18); letter-spacing: .04em;
+}
+.about-placeholder span { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+
+.about-badge {
+  position: absolute; bottom: -1.5rem; right: -1.5rem;
+  background: var(--green); color: var(--bg);
+  width: 100px; height: 100px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; z-index: 3;
+}
+.about-badge strong { font-family:'Fraunces',serif; font-size:2.4rem; font-weight:900; line-height:1; }
+.about-badge span { font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500; line-height:1.4; }
+
+.about-content h2 {
+  font-family: 'Fraunces', serif; font-size: 2.1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 1.5rem; line-height: 1.25;
+}
+.about-content h2 em { color: var(--green); font-style: italic; }
+.about-content p { color: var(--muted); line-height: 1.9; margin-bottom: 1.1rem; font-size: .93rem; }
+
+.about-edu {
+  margin-top: 2rem; padding: 1.2rem;
+  border: 1px solid var(--border); background: rgba(108,196,125,.03);
+}
+.about-edu-tag { font-size:.62rem; letter-spacing:.25em; text-transform:uppercase; color:var(--green); margin-bottom:.4rem; }
+.about-edu-name { font-size:.92rem; color:var(--text); font-weight:400; }
+.about-edu-sub { font-size:.8rem; color:var(--muted); margin-top:.2rem; }
+
+.about-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.5rem; }
+.stat-item { border-top:1px solid var(--border); padding-top:1rem; }
+.stat-num { font-family:'Fraunces',serif; font-size:2.8rem; font-weight:900; color:var(--green); line-height:1; }
+.stat-label { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:.3rem; }
+
+/* ── PROJECTS (MASONRY) ─────────────── */
+#projects { background: var(--bg2); border-top: 1px solid var(--border); }
+.projects-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:4rem; }
+
+.masonry-grid {
+  columns: 3 280px;
+  column-gap: 1.2rem;
+}
+.project-card {
+  break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+  transition: border-color .35s, transform .4s, box-shadow .35s;
+  cursor: none;
+  margin-bottom: 1.2rem;
+}
+.project-card:hover {
+  border-color: rgba(108,196,125,.38);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.45);
+}
+.project-card:hover .proj-overlay { opacity: 1; }
+.project-card:hover .proj-img img { transform: scale(1.06); }
+
+.proj-img { width:100%; overflow:hidden; background:var(--bg3); position:relative; }
+.proj-img img {
+  width: 100%; display: block;
+  transition: transform .55s ease;
+  object-fit: cover;
+  min-height: 160px;
+}
+.proj-overlay {
+  position:absolute; inset:0;
+  background: rgba(7,14,8,.5);
+  opacity:0; transition:opacity .3s;
+  display:flex; align-items:center; justify-content:center;
+}
+.proj-overlay-btn {
+  width:52px; height:52px;
+  border:1px solid var(--green); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--green); font-size:1.4rem;
+}
+.proj-info { padding: 1.2rem 1.3rem 1.4rem; }
+.proj-tags { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:.65rem; }
+.proj-tag {
+  font-size:.58rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green); background:rgba(108,196,125,.09);
+  padding:.2rem .5rem; border-radius:2px;
+}
+.proj-name { font-family:'Fraunces',serif; font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
+.proj-desc { font-size:.8rem; color:var(--muted); line-height:1.75; }
+.proj-count {
+  display:inline-flex; align-items:center; gap:.35rem;
+  font-size:.64rem; color:var(--muted); margin-top:.6rem;
+  letter-spacing:.1em; text-transform:uppercase;
+}
+.proj-count::before { content:''; display:block; width:4px; height:4px; background:var(--green); border-radius:50%; }
+
+/* ── LIGHTBOX ────────────────────────── */
+.lightbox {
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(7,14,8,.97);
+  display:none; align-items:center; justify-content:center;
+}
+.lightbox.open { display:flex; }
+.lb-inner { position:relative; width:88vw; max-width:1080px; }
+.lb-close {
+  position:absolute; top:-3rem; right:0;
+  background:none; border:none; color:var(--muted);
+  font-size:1.4rem; cursor:none; transition:color .2s;
+}
+.lb-close:hover { color:var(--green); }
+.lb-main { width:100%; background:var(--bg3); }
+.lb-main img, .lb-main video { width:100%; max-height:68vh; object-fit:contain; display:block; }
+.lb-nav-row { display:flex; justify-content:space-between; margin-top:.5rem; }
+.lb-prev,.lb-next {
+  background:rgba(7,14,8,.8); border:1px solid var(--border);
+  color:var(--muted); width:42px; height:42px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:none; transition:color .2s,border-color .2s; font-size:1rem;
+}
+.lb-prev:hover,.lb-next:hover { color:var(--green); border-color:var(--green); }
+.lb-thumbs { display:flex; gap:.5rem; margin-top:.8rem; overflow-x:auto; padding-bottom:.3rem; }
+.lb-thumb {
+  width:72px; height:50px; object-fit:cover;
+  opacity:.4; cursor:none; flex-shrink:0;
+  transition:opacity .2s; border:1px solid transparent;
+}
+.lb-thumb.active { opacity:1; border-color:var(--green); }
+.lb-thumb-video {
+  width:72px; height:50px; background:var(--bg3); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  cursor:none; opacity:.4; flex-shrink:0; transition:opacity .2s;
+}
+.lb-thumb-video.active { opacity:1; border-color:var(--green); }
+.lb-thumb-video span { font-size:.58rem; color:var(--muted); text-transform:uppercase; }
+.lb-info { margin-top:.8rem; display:flex; justify-content:space-between; align-items:flex-end; }
+.lb-title { font-family:'Fraunces',serif; font-size:1rem; font-weight:700; color:var(--text); }
+.lb-counter { font-size:.7rem; color:var(--muted); letter-spacing:.1em; }
+
+/* ── SKILLS ──────────────────────────── */
+#skills { background:var(--bg2); border-top:1px solid var(--border); }
+.skills-layout { display:grid; grid-template-columns:1fr 1.6fr; gap:8rem; }
+.skills-intro p { color:var(--muted); line-height:1.9; font-size:.93rem; max-width:320px; }
+.skill-group-title {
+  font-size:.66rem; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--green); margin-bottom:1.8rem;
+  padding-bottom:.7rem; border-bottom:1px solid var(--border);
+}
+.skills-columns { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
+.tools-wrap { margin-top:2.5rem; }
+.tools-grid { display:flex; flex-wrap:wrap; gap:.5rem; }
+.tool-pill {
+  font-size:.7rem; letter-spacing:.08em;
+  border:1px solid var(--border); color:var(--muted);
+  padding:.35rem .9rem; border-radius:2px;
+  transition:border-color .3s, color .3s;
+}
+.tool-pill:hover { border-color:var(--green); color:var(--green); }
+
+/* ── CONTACT ─────────────────────────── */
+#contact { background:var(--bg); }
+.contact-wrap { display:grid; grid-template-columns:1fr 1.2fr; gap:8rem; align-items:start; }
+.contact-info p { color:var(--muted); line-height:1.9; font-size:.93rem; margin-bottom:2.5rem; }
+.contact-links { display:flex; flex-direction:column; }
+.contact-link {
+  display:flex; align-items:center; gap:1rem;
+  color:var(--muted); text-decoration:none; font-size:.84rem;
+  transition:color .3s; padding:.9rem 0; border-bottom:1px solid var(--border);
+}
+.contact-link:hover { color:var(--green); }
+.contact-icon {
+  width:36px; height:36px; border:1px solid var(--border); border-radius:2px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.85rem; transition:border-color .3s; flex-shrink:0;
+}
+.contact-link:hover .contact-icon { border-color:var(--green); }
+.contact-form { display:flex; flex-direction:column; gap:1.2rem; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.form-group { display:flex; flex-direction:column; gap:.45rem; }
+.form-group label { font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.form-group input,.form-group textarea {
+  background:var(--bg2); border:1px solid var(--border);
+  color:var(--text); padding:.85rem 1rem; border-radius:2px;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; font-weight:300;
+  outline:none; transition:border-color .3s; resize:none;
+}
+.form-group input:focus,.form-group textarea:focus { border-color:var(--green); }
+.form-group textarea { min-height:130px; }
+.form-group input::placeholder,.form-group textarea::placeholder { color:var(--muted); opacity:.5; }
+.btn-submit {
+  background:transparent; border:1px solid var(--green); color:var(--green);
+  padding:1rem 2.5rem; border-radius:2px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.74rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+  cursor:none; transition:background .3s,color .3s; align-self:flex-start;
+}
+.btn-submit:hover { background:var(--green); color:var(--bg); }
+
+/* ── FOOTER ──────────────────────────── */
+footer {
+  padding:2.5rem 5rem;
+  display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid var(--border);
+}
+.footer-copy { font-size:.73rem; color:var(--muted); }
+.footer-copy span { color:var(--green); }
+.footer-nav { display:flex; gap:2rem; }
+.footer-nav a {
+  font-size:.7rem; color:var(--muted); text-decoration:none;
+  letter-spacing:.12em; text-transform:uppercase; transition:color .3s;
+}
+.footer-nav a:hover { color:var(--green); }
+
+/* ── REVEAL ──────────────────────────── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .75s ease,transform .75s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── KEYFRAMES ───────────────────────── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn { from{opacity:0;}to{opacity:1;} }
+@keyframes scrollPulse { 0%,100%{opacity:1;}50%{opacity:.3;} }
+
+/* ── RESPONSIVE ──────────────────────── */
+@media(max-width:960px){
+  nav{padding:1.5rem 2rem;}
+  .nav-links{display:none;}
+  section{padding:5rem 2rem;}
+  #hero{padding:0 2rem 4rem;}
+  .hero-bottom{flex-direction:column;align-items:flex-start;gap:2rem;}
+  .about-grid,.skills-layout,.contact-wrap{grid-template-columns:1fr;gap:3rem;}
+  .about-badge{right:0;}
+  .masonry-grid{columns:2 200px;}
+  .skills-columns{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:1.5rem;padding:2rem;text-align:center;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:500px){
+  .masonry-grid{columns:1;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lb-inner">
+    <button class="lb-close" id="lbClose">✕</button>
+    <div class="lb-main" id="lbMain"></div>
+    <div class="lb-nav-row">
+      <button class="lb-prev" id="lbPrev">← Prev</button>
+      <button class="lb-next" id="lbNext">Next →</button>
+    </div>
+    <div class="lb-thumbs" id="lbThumbs"></div>
+    <div class="lb-info">
+      <div class="lb-title" id="lbTitle"></div>
+      <div class="lb-counter" id="lbCounter"></div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <a href="#hero" class="nav-logo">PH<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="resume.html">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-depth"></div>
+  <div class="hero-eyebrow" id="hero-eyebrow">3D Character &amp; Creature Artist — Animation &amp; Gaming</div>
+  <h1 class="hero-title">
+    <span class="line1" id="hero-line1">PERCY</span>
+    <span class="line2" id="hero-line2">HOLWAY<span class="accent">.</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc" id="hero-desc">
+      Sculpting expressive creatures from the deep.<br>
+      <strong>ZBrush · Maya · Substance Painter · UE5</strong> — full pipeline from concept to game-ready asset.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="https://www.artstation.com/percyholway" target="_blank" class="btn-ghost" id="hero-arstation">ArtStation ↗</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-tag reveal">Selected Work</div>
+      <h2 class="section-title reveal">Featured<br><em>Projects.</em></h2>
+    </div>
+    <p class="reveal" style="max-width:270px;color:var(--muted);font-size:.88rem;line-height:1.85;">
+      Creature sculpts, full pipelines, and anatomy studies. Click any card to explore all views.
+    </p>
+  </div>
+  <div class="masonry-grid" id="projects-grid">
+    </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-img-wrap" id="about-img-wrap">
+        <div class="about-placeholder">
+          <div class="about-initials" id="about-initials">PH</div>
+          <span>Add Your Photo Here</span>
+        </div>
+        <div class="about-frame-tl"></div>
+        <div class="about-frame-br"></div>
+      </div>
+      <div class="about-badge">
+        <strong id="about-years">4+</strong>
+        <span>Years<br>Creating</span>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-tag reveal">About Me</div>
+      <h2 class="reveal" id="about-heading">Bringing creatures<br><em>to life in 3D.</em></h2>
+      <div id="about-bio">
+        </div>
+      <div class="about-edu reveal">
+        <div class="about-edu-tag">Education</div>
+        <div class="about-edu-name" id="edu-name">University of Central Florida</div>
+        <div class="about-edu-sub" id="edu-sub">BFA Emerging Media — Animation &amp; Visualization · Expected May 2026 · President's Honor Roll</div>
+      </div>
+      <div class="about-stats reveal" id="about-stats">
+        <div class="stat-item"><div class="stat-num">BFA</div><div class="stat-label">UCF · May 2026</div></div>
+        <div class="stat-item"><div class="stat-num">Adobe</div><div class="stat-label">Certified Pro</div></div>
+        <div class="stat-item"><div class="stat-num">4+</div><div class="stat-label">Years Creating</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-tag reveal">Expertise</div>
+  <h2 class="section-title reveal">Skills &amp;<br><em>Tools.</em></h2>
+  <div class="skills-layout">
+    <div>
+      <p class="reveal" id="skills-intro"></p>
+      <div class="tools-wrap reveal" style="transition-delay:.1s">
+        <div class="skill-group-title" style="margin-top:2.5rem">Software</div>
+        <div class="tools-grid" id="tools-grid"></div>
+      </div>
+    </div>
+    <div class="skills-columns" id="skills-columns">
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="skill-group-title">Core Competencies</div>
+        <div style="display:flex; flex-direction:column; gap:1.2rem;">
+          <div>
+            <h4 style="color:var(--text); font-size:.9rem; margin-bottom:.3rem;">Anatomy & Organic Form</h4>
+            <p style="color:var(--muted); font-size:.8rem; line-height:1.6;">Deep understanding of underlying skeletal and muscular structures to create believable, biomechanically functional creatures.</p>
+          </div>
+          <div>
+            <h4 style="color:var(--text); font-size:.9rem; margin-bottom:.3rem;">Fur & Hair Workflows</h4>
+            <p style="color:var(--muted); font-size:.8rem; line-height:1.6;">Proficient in utilizing FiberShop and GS Curve Tool to author optimized, realistic hair and fur cards for real-time engines.</p>
+          </div>
+          <div>
+            <h4 style="color:var(--text); font-size:.9rem; margin-bottom:.3rem;">Game-Ready Pipelines</h4>
+            <p style="color:var(--muted); font-size:.8rem; line-height:1.6;">Translating high-fidelity sculpts into optimized, fully rigged, and PBR-textured assets integrated seamlessly into Unreal Engine 5.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-tag reveal">Get In Touch</div>
+  <h2 class="section-title reveal">Let's Create<br><em>Something.</em></h2>
+  <div class="contact-wrap">
+    <div>
+      <p class="reveal" id="contact-intro">Whether you're a studio looking for a creature artist, a director building a team, or a fellow artist wanting to collaborate — I'd love to hear from you.</p>
+      <div class="contact-links reveal" style="transition-delay:.1s" id="contact-links"></div>
+    </div>
+    <form class="contact-form reveal" style="transition-delay:.15s" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input type="text" placeholder="Your Name" required></div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="you@studio.com" required></div>
+      </div>
+      <div class="form-group"><label>Subject</label><input type="text" placeholder="Project inquiry / Collaboration / etc."></div>
+      <div class="form-group"><label>Message</label><textarea placeholder="Tell me about the project..." required></textarea></div>
+      <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© <span id="footer-year">2026</span> <span id="footer-name">Percy Holway</span>. All rights reserved.</div>
+  <nav class="footer-nav">
+    <a href="#projects">Work</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="resume.html">Resume</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   DEFAULT CONTENT 
+═══════════════════════════════════════ */
+const DEFAULTS = {
+  meta: { name:"Percy Holway", title:"Percy Holway — 3D Character Artist", year:"2026" },
+  hero: {
+    eyebrow: "3D Character & Creature Artist — Animation & Gaming",
+    line1: "PERCY", line2: "HOLWAY",
+    descLine1: "Sculpting expressive creatures from the deep.",
+    stack: "ZBrush · Maya · Substance Painter · UE5",
+    artStationUrl: "https://www.artstation.com/percyholway"
+  },
+  about: {
+    yearsCreating:"4+", photo:"", initials:"PH",
+    heading:"Bringing creatures<br><em>to life in 3D.</em>",
+    paragraphs:[
+      "I'm a 3D Character Artist based in Orlando, FL, specializing in creature design and production pipelines for games and animation. My approach is grounded in a deep study of zoology and practical herpetology. Caring for and studying reptiles allows me to translate real-world biological mechanics and scale-by-scale anatomy into believable, production-ready creatures.",
+      "Currently pursuing my BFA in Emerging Media (Animation & Visualization) at UCF, my focus is on realistic creature work—from authoring complex fur systems to real-time engine optimization. I have collaborated on student short films, managed client feedback loops as a freelance character artist, and continually strive to push the technical boundaries of my assets."
+    ],
+    education:{
+      institution:"University of Central Florida",
+      degree:"BFA Emerging Media — Animation & Visualization",
+      detail:"Expected May 2026 · President's Honor Roll"
+    },
+    stats:[
+      {num:"BFA",label:"UCF · May 2026"},
+      {num:"Adobe",label:"Certified Pro"},
+      {num:"4+",label:"Years Creating"}
+    ]
+  },
+  projects:[
+    {
+      id:"hector",
+      title:"Hector — Eel Creature Model",
+      tags:["Creature","Full Pipeline","PBR Textured"],
+      desc:"Created a full creature pipeline as an individual project. Focus on dynamic posing and high-fidelity surface detail translated into optimized topology.",
+      images:[
+        "Portfolio Images/Hector/EelLad01.png",
+        "Portfolio Images/Hector/EelLad02.png",
+        "Portfolio Images/Hector/EelLad03.png",
+        "Portfolio Images/Hector/Holway_Percy_FinalCharacterModel.jpg"
+      ],
+      types:["img","img","img","img"]
+    },
+    {
+      id:"serpent",
+      title:"Aetheria — Advanced Creature Study",
+      tags:["Thesis","ZBrush","UE5","Hair Systems"],
+      desc:"Responsible for all aspects of modeling, rigging, and texturing for an independent study. Built custom Alphas and utilized FiberShop/GS Curve Tool for hair solutions, drastically cutting manual texturing time.",
+      images:[
+        "Portfolio Images/Thesis Creature/serpent_faceclose.jpg",
+        "Portfolio Images/Thesis Creature/serpent_sideclose.jpg",
+        "Portfolio Images/Thesis Creature/serpent_sides.jpg",
+        "Portfolio Images/Thesis Creature/serpent_topbottom.jpg",
+        "Portfolio Images/Thesis Creature/sideclose.jpg",
+        "Portfolio Images/Thesis Creature/sides.jpg"
+      ],
+      types:["img","img","img","img","img","img"]
+    },
+    {
+      id:"zigmol",
+      title:"Zigmol — Mol's Morsels",
+      tags:["Character","Short Film","Rigged"],
+      desc:"Collaborated within a student production pipeline. Sculpted, retopologized, and delivered a fully rigged hero creature with zero rig corrections required during the animation phase.",
+      images:[
+        "Portfolio Images/Zigmol/mol.png",
+        "Portfolio Images/Zigmol/mol2.png",
+        "Portfolio Images/Zigmol/Zigmol3.jpg",
+        "Portfolio Images/Zigmol/Zigmol4.jpg",
+        "Portfolio Images/Zigmol/ZigmolFB.jpg",
+        "Portfolio Images/Zigmol/ZigmolS.jpg"
+      ],
+      types:["img","img","img","img","img","img"]
+    },
+    {
+      id:"gar",
+      title:"Alligator Gar — Anatomy Study",
+      tags:["Anatomy","Creature","ZBrush"],
+      desc:"Anatomy study of the prehistoric alligator gar. Focus on capturing underlying skeletal landmarks, fin rays, and accurate proportion from biological reference.",
+      images:[
+        "Portfolio Images/Alligator Gar/Side Render.jpg",
+        "Portfolio Images/Alligator Gar/Side posed.jpg",
+        "Portfolio Images/Alligator Gar/Face_Close_Up.jpg",
+        "Portfolio Images/Alligator Gar/gar2.jpg",
+        "Portfolio Images/Alligator Gar/garsiode.jpg",
+        "Portfolio Images/Alligator Gar/hih.jpg",
+        "Portfolio Images/Alligator Gar/posed face close up.jpg",
+        "Portfolio Images/Alligator Gar/Scale Close up.jpg",
+        "Portfolio Images/Alligator Gar/sidefih.jpg",
+        "Portfolio Images/Alligator Gar/Wireframe.jpg"
+      ],
+      types:["img","img","img","img","img","img","img","img","img","img"]
+    },
+    {
+      id:"deer",
+      title:"Deer Creature",
+      tags:["Creature","ZBrush","WIP"],
+      desc:"3D creature sculpt exploring mammalian anatomy, muscle insertion points, and quadrupedal forms.",
+      images:[
+        "Portfolio Images/Deer Creature/1.jpg",
+        "Portfolio Images/Deer Creature/2.jpg",
+        "Portfolio Images/Deer Creature/3.jpg"
+      ],
+      types:["img","img","img"]
+    },
+    {
+      id:"hand",
+      title:"Human Hand Study",
+      tags:["Anatomy","ZBrush","Render"],
+      desc:"Anatomical hand sculpt studying tendon flow, knuckle structure, and surface vein integration. Rendered in Marmoset.",
+      images:[
+        "Portfolio Images/Hand/HandRender.jpg",
+        "Portfolio Images/Hand/Hand1.jpg"
+      ],
+      types:["img","img"]
+    }
+  ],
+  skills:{
+    intro:"A specialized 3D creature artist focused on high-fidelity, game-ready assets. My pipeline bridges anatomical research with technical execution. Adobe Certified Professional in Visual Effects & Motion Graphics (After Effects).",
+    software:["ZBrush","Autodesk Maya","Substance 3D Painter","Unreal Engine 5","FiberShop / GS Curve Tool","Marmoset Toolbag","After Effects","Premiere Pro","Photoshop","Illustrator","ToonBoom Harmony","Blender"],
+    groups:[] 
+  },
+  contact:{
+    intro:"Whether you're a studio looking for a creature artist, a director building a team, or a fellow artist wanting to collaborate — I'd love to hear from you.",
+    email:"percy.holway@gmail.com",
+    artStationUrl:"https://www.artstation.com/percyholway",
+    artStationHandle:"artstation.com/percyholway",
+    linkedinUrl:"#",
+    linkedinHandle:"LinkedIn — Add Your URL"
+  }
+};
+
+/* ═══════════════════════════════════════
+   APPLY CONTENT
+═══════════════════════════════════════ */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+document.title = C.meta.title;
+document.getElementById('footer-year').textContent  = C.meta.year;
+document.getElementById('footer-name').textContent  = C.meta.name;
+
+// Hero
+document.getElementById('hero-eyebrow').textContent = C.hero.eyebrow;
+document.getElementById('hero-line1').textContent   = C.hero.line1;
+document.getElementById('hero-line2').innerHTML     = esc(C.hero.line2) + '<span class="accent">.</span>';
+document.getElementById('hero-desc').innerHTML      = esc(C.hero.descLine1) + '<br><strong>' + esc(C.hero.stack) + '</strong> — full pipeline from concept to game-ready asset.';
+document.getElementById('hero-arstation').href      = C.hero.artStationUrl;
+
+// About
+document.getElementById('about-years').textContent   = C.about.yearsCreating;
+document.getElementById('about-initials').textContent = C.about.initials;
+document.getElementById('about-heading').innerHTML   = C.about.heading;
+if (C.about.photo) {
+  document.getElementById('about-img-wrap').innerHTML =
+    `<img src="${esc(C.about.photo)}" alt="${esc(C.meta.name)}"><div class="about-frame-tl"></div><div class="about-frame-br"></div>`;
+}
+document.getElementById('about-bio').innerHTML = C.about.paragraphs.map(p => `<p class="reveal">${p}</p>`).join('');
+document.getElementById('edu-name').textContent = C.about.education.institution;
+document.getElementById('edu-sub').textContent  = C.about.education.degree + ' · ' + C.about.education.detail;
+document.getElementById('about-stats').innerHTML = C.about.stats.map(s =>
+  `<div class="stat-item"><div class="stat-num">${esc(s.num)}</div><div class="stat-label">${esc(s.label)}</div></div>`
+).join('');
+
+// Projects
+document.getElementById('projects-grid').innerHTML = C.projects.map((p,i) => `
+  <div class="project-card reveal" style="transition-delay:${(i*.07).toFixed(2)}s"
+    data-title="${esc(p.title)}"
+    data-images='${JSON.stringify(p.images)}'
+    data-types='${JSON.stringify(p.types)}'>
+    <div class="proj-img">
+      <img src="${esc(p.images[0])}" alt="${esc(p.title)}" loading="lazy"
+        onerror="this.parentElement.style.minHeight='180px'">
+      <div class="proj-overlay"><div class="proj-overlay-btn">+</div></div>
+    </div>
+    <div class="proj-info">
+      <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${esc(t)}</span>`).join('')}</div>
+      <div class="proj-name">${esc(p.title)}</div>
+      <div class="proj-desc">${esc(p.desc)}</div>
+      <div class="proj-count">${p.images.length} view${p.images.length!==1?'s':''}${p.types.includes('video')?' + video':''}</div>
+    </div>
+  </div>`).join('');
+
+// Skills
+document.getElementById('skills-intro').textContent = C.skills.intro;
+document.getElementById('tools-grid').innerHTML = C.skills.software.map(s=>`<span class="tool-pill">${esc(s)}</span>`).join('');
+
+// Contact
+document.getElementById('contact-intro').textContent = C.contact.intro;
+document.getElementById('contact-links').innerHTML = `
+  <a href="mailto:${esc(C.contact.email)}" class="contact-link">
+    <div class="contact-icon">✉</div><span>${esc(C.contact.email)}</span>
+  </a>
+  <a href="${esc(C.contact.artStationUrl)}" target="_blank" class="contact-link">
+    <div class="contact-icon">A</div><span>${esc(C.contact.artStationHandle)}</span>
+  </a>
+  <a href="${esc(C.contact.linkedinUrl)}" class="contact-link">
+    <div class="contact-icon">in</div><span>${esc(C.contact.linkedinHandle)}</span>
+  </a>`;
+
+/* ═══════════════════════════════════════
+   FIREFLIES
+═══════════════════════════════════════ */
+const heroEl = document.getElementById('hero');
+[
+  {x:18,y:28,s:3,c:'#6cc47d',dur:8,  delay:0,  dx:22, dy:-38,peak:.7},
+  {x:64,y:18,s:2,c:'#79b2c5',dur:11, delay:1.5,dx:-18,dy:28, peak:.5},
+  {x:82,y:52,s:3,c:'#6cc47d',dur:9,  delay:.7, dx:14, dy:-24,peak:.6},
+  {x:38,y:72,s:2,c:'#9dc4a4',dur:13, delay:2.5,dx:28, dy:18, peak:.4},
+  {x:52,y:42,s:2,c:'#79b2c5',dur:7,  delay:4,  dx:-14,dy:-28,peak:.8},
+  {x:9, y:62,s:3,c:'#6cc47d',dur:10, delay:1,  dx:38, dy:-9, peak:.6},
+  {x:88,y:32,s:2,c:'#9dc4a4',dur:12, delay:3,  dx:-24,dy:14, peak:.5},
+  {x:72,y:78,s:2,c:'#6cc47d',dur:8,  delay:5.5,dx:9,  dy:-38,peak:.7},
+  {x:28,y:48,s:2,c:'#79b2c5',dur:15, delay:.3, dx:19, dy:23, peak:.4},
+  {x:56,y:84,s:3,c:'#6cc47d',dur:9,  delay:2,  dx:-28,dy:-18,peak:.6},
+  {x:44,y:15,s:2,c:'#9dc4a4',dur:14, delay:6,  dx:16, dy:32, peak:.45},
+  {x:92,y:68,s:2,c:'#79b2c5',dur:10, delay:3.5,dx:-12,dy:-20,peak:.55},
+].forEach(f=>{
+  const el=document.createElement('div');
+  el.className='firefly';
+  el.style.cssText=`left:${f.x}%;top:${f.y}%;width:${f.s}px;height:${f.s}px;background:${f.c};box-shadow:0 0 ${f.s*3}px ${f.c};--dur:${f.dur}s;--delay:${f.delay}s;--dx:${f.dx}px;--dy:${f.dy}px;--peak:${f.peak};animation-delay:${f.delay}s;animation-duration:${f.dur}s;`;
+  heroEl.appendChild(el);
+});
+
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+document.addEventListener('mouseover',e=>{
+  e.target.closest('a,button,.project-card')?ring.classList.add('expand'):ring.classList.remove('expand');
+});
+(function anim(){
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  rx+=(mx-rx)*.35;ry+=(my-ry)*.35;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(anim);
+})();
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+const ro=new IntersectionObserver(entries=>
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),
+  {threshold:.08}
+);
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ═══════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════ */
+let lbImgs=[],lbTypes=[],lbIdx=0;
+const lb=document.getElementById('lightbox');
+const lbMain=document.getElementById('lbMain');
+const lbThumbs=document.getElementById('lbThumbs');
+const lbTitleEl=document.getElementById('lbTitle');
+const lbCounterEl=document.getElementById('lbCounter');
+
+function openLB(imgs,types,title){
+  lbImgs=imgs;lbTypes=types;lbIdx=0;
+  lbTitleEl.textContent=title;
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+  renderLB();
+}
+function closeLB(){
+  lb.classList.remove('open');
+  document.body.style.overflow='';
+  const v=lbMain.querySelector('video');if(v)v.pause();
+}
+function renderLB(){
+  const v=lbMain.querySelector('video');if(v)v.pause();
+  const src=lbImgs[lbIdx],type=lbTypes[lbIdx];
+  lbMain.innerHTML=type==='video'
+    ?`<video src="${src}" controls autoplay style="width:100%;max-height:68vh;background:#000;display:block;"></video>`
+    :`<img src="${src}" alt="view ${lbIdx+1}">`;
+  lbCounterEl.textContent=(lbIdx+1)+' / '+lbImgs.length;
+  lbThumbs.innerHTML='';
+  lbImgs.forEach((s,i)=>{
+    if(lbTypes[i]==='video'){
+      const d=document.createElement('div');
+      d.className='lb-thumb-video'+(i===lbIdx?' active':'');
+      d.innerHTML='<span>▶ Video</span>';
+      d.onclick=()=>{lbIdx=i;renderLB();};
+      lbThumbs.appendChild(d);
+    } else {
+      const img=document.createElement('img');
+      img.src=s;img.className='lb-thumb'+(i===lbIdx?' active':'');
+      img.onclick=()=>{lbIdx=i;renderLB();};
+      lbThumbs.appendChild(img);
+    }
+  });
+}
+document.getElementById('lbClose').onclick=closeLB;
+document.getElementById('lbPrev').onclick=()=>{lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;renderLB();};
+document.getElementById('lbNext').onclick=()=>{lbIdx=(lbIdx+1)%lbImgs.length;renderLB();};
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowLeft'){lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;renderLB();}
+  if(e.key==='ArrowRight'){lbIdx=(lbIdx+1)%lbImgs.length;renderLB();}
+});
+document.getElementById('projects-grid').addEventListener('click',e=>{
+  const card=e.target.closest('.project-card');
+  if(card) openLB(JSON.parse(card.dataset.images),JSON.parse(card.dataset.types),card.dataset.title);
+});
+
+/* ═══════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════ */
+function handleSubmit(e){
+  e.preventDefault();
+  const btn=document.getElementById('submitBtn');
+  btn.textContent='Message Sent ✓';
+  btn.style.background='var(--green)';btn.style.color='var(--bg)';
+  setTimeout(()=>{btn.textContent='Send Message';btn.style.background='';btn.style.color='';e.target.reset();},3500);
+}
+</script>
+</body>
+</html>

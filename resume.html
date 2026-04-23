@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume — Percy Holway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root {
+  --bg:   #070e08;
+  --bg2:  #0c1a0d;
+  --green: #6cc47d;
+  --text:  #e0eae1;
+  --muted: #688869;
+  --border: rgba(108,196,125,0.13);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 300; line-height: 1.6; padding: 4rem 2rem; }
+.container { max-width: 900px; margin: 0 auto; background: var(--bg2); border: 1px solid var(--border); padding: 4rem; border-radius: 4px; }
+.header { border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: flex-end; }
+h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: .5rem; }
+.subtitle { font-size: 1rem; color: var(--green); letter-spacing: .05em; }
+.contact-info { text-align: right; font-size: .85rem; color: var(--muted); }
+.contact-info a { color: var(--text); text-decoration: none; transition: color .2s; }
+.contact-info a:hover { color: var(--green); }
+.grid { display: grid; grid-template-columns: 1fr 2.5fr; gap: 3rem; }
+.section-title { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; font-weight: 600; }
+.block { margin-bottom: 2rem; }
+.block-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .3rem; }
+.role { font-weight: 600; color: var(--text); font-size: 1rem; }
+.company { font-style: italic; color: var(--muted); font-size: .9rem; }
+.date { font-size: .8rem; color: var(--muted); }
+ul { margin-left: 1.2rem; color: var(--muted); font-size: .85rem; }
+li { margin-bottom: .4rem; }
+.skills-list { list-style: none; margin: 0; padding: 0; font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem; }
+.skills-list li { margin-bottom: .3rem; }
+.back-link { display: inline-block; margin-bottom: 2rem; color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .2s; }
+.back-link:hover { color: var(--green); }
+@media (max-width: 768px) { .grid { grid-template-columns: 1fr; gap: 2rem; } .header { flex-direction: column; align-items: flex-start; gap: 1rem; } .contact-info { text-align: left; } .container { padding: 2rem; } }
+</style>
+</head>
+<body>
+
+<div style="max-width: 900px; margin: 0 auto;">
+  <a href="index.html" class="back-link">← Back to Portfolio</a>
+</div>
+
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>Percy Holway</h1>
+      <div class="subtitle">3D Character & Creature Artist</div>
+    </div>
+    <div class="contact-info">
+      Orlando, FL<br>
+      <a href="mailto:percy.holway@gmail.com">percy.holway@gmail.com</a><br>
+      <a href="https://www.artstation.com/percyholway" target="_blank">artstation.com/percyholway</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <aside>
+      <div class="section-title">Education</div>
+      <div class="block">
+        <div class="role">University of Central Florida</div>
+        <div class="company" style="margin-bottom: .2rem;">BFA Emerging Media — Animation</div>
+        <div class="date">Expected May 2026</div>
+        <div style="font-size: .8rem; color: var(--muted); margin-top: .4rem;">Minor: Creative Writing<br>President's Honor Roll</div>
+      </div>
+
+      <div class="section-title">Software</div>
+      <ul class="skills-list">
+        <li>ZBrush</li>
+        <li>Autodesk Maya</li>
+        <li>Substance 3D Painter</li>
+        <li>Unreal Engine 5</li>
+        <li>FiberShop / GS Curve Tool</li>
+        <li>Marmoset Toolbag</li>
+        <li>Adobe CC (AE, PS, PR, AI)</li>
+      </ul>
+
+      <div class="section-title">Technical</div>
+      <ul class="skills-list">
+        <li>Organic Sculpting & Anatomy</li>
+        <li>Retopology & UV Unwrapping</li>
+        <li>PBR Texturing & Materials</li>
+        <li>Character Rigging (IK/FK)</li>
+        <li>Hair/Fur Card Generation</li>
+        <li>Real-Time Optimization</li>
+      </ul>
+
+      <div class="section-title">Certifications</div>
+      <ul class="skills-list">
+        <li>Adobe Certified Professional:<br>Visual Effects & Motion Graphics</li>
+      </ul>
+    </aside>
+
+    <main>
+      <div class="section-title">Experience</div>
+      
+      <div class="block">
+        <div class="block-header">
+          <div><span class="role">Freelance Character Artist</span> <span class="company">· Self-Employed</span></div>
+          <div class="date">2022 — Present</div>
+        </div>
+        <ul>
+          <li>Conceptualized and delivered 20+ custom digital character and asset commissions for private clients.</li>
+          <li>Managed the full creative lifecycle including initial client consultation, feedback loops, iteration, and final high-resolution delivery.</li>
+          <li>Maintained a 100% on-time delivery rate while balancing concurrent project deadlines.</li>
+        </ul>
+      </div>
+
+    <div class="block">
+        <div class="block-header">
+          <div><span class="role">Scriptwriter & 2D Artist</span> <span class="company">· The Croc Docs</span></div>
+          <div class="date">2025 — Present</div>
+        </div>
+        <ul>
+          <li>Developed narrative scripts and storyboards, structuring pacing and dialogue for production.</li>
+          <li>Created 2D character concepts, environmental assets, and illustrations to establish and support the project's visual direction.</li>
+          <li>Collaborated closely with the production team to ensure visual and narrative consistency from initial concept to final execution.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block-header">
+          <div><span class="role">Marketing Strategist</span> <span class="company">· UCF Office of Academic Advocacy</span></div>
+          <div class="date">2024 — 2025</div>
+        </div>
+        <ul>
+          <li>Produced motion graphics and design assets supporting 5+ campus events per semester.</li>
+          <li>Collaborated with a student team to develop targeted marketing plans and cross-platform campaigns.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block-header">
+          <div><span class="role">Barista</span></div>
+          <div class="date">Present</div>
+        </div>
+        <ul>
+          <li>Manage fast-paced customer service workflows, requiring clear communication and immediate problem-solving.</li>
+          <li>Demonstrate adaptability and strong teamwork within a highly collaborative, high-pressure shift environment.</li>
+        </ul>
+      </div>
+
+      <div class="section-title" style="margin-top: 3rem;">Featured Projects</div>
+
+      <div class="block">
+        <div class="block-header">
+          <div><span class="role">Aetheria (Advanced Creature Design)</span> <span class="company">· Independent Study</span></div>
+          <div class="date">Spring 2026</div>
+        </div>
+        <ul>
+          <li>Created a full creature pipeline as an individual academic project, from initial concept to Unreal Engine 5 integration.</li>
+          <li>Sculpted high-fidelity anatomical details in ZBrush and generated optimized retopology in Maya.</li>
+          <li>Built custom Alphas and utilized FiberShop and GS Curve Tool to author realistic hair solutions, cutting manual texturing time by ~30%.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block-header">
+          <div><span class="role">Mol's Morsels</span> <span class="company">· Short Film</span></div>
+          <div class="date">Spring 2026</div>
+        </div>
+        <ul>
+          <li>Responsible for all aspects of modeling, rigging, and texturing for a hero creature within a student production pipeline.</li>
+          <li>Delivered a robust character rig that required zero technical corrections during the animation phase.</li>
+          <li>Authored PBR materials in Substance Painter and delivered the final asset one week ahead of the production deadline.</li>
+        </ul>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
