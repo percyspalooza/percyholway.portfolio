@@ -3,177 +3,568 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resume — Percy Holway</title>
+<title>Percy Holway — Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,900;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+/* ── RESET ──────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── VARIABLES — light forest theme ─────── */
 :root {
-  --bg:   #070e08;
-  --bg2:  #0c1a0d;
-  --green: #6cc47d;
-  --text:  #e0eae1;
-  --muted: #688869;
-  --border: rgba(108,196,125,0.13);
+  --bg:     #f5f8f5;
+  --bg2:    #eaf0ea;
+  --bg3:    #dfe8df;
+  --green:  #2b7a3c;
+  --sage:   #3d6b45;
+  --blue:   #2f6570;
+  --text:   #0d1e0f;
+  --muted:  #456249;
+  --border: rgba(43,122,60,0.2);
+  --col-l:  220px;
 }
-body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 300; line-height: 1.6; padding: 4rem 2rem; }
-.container { max-width: 900px; margin: 0 auto; background: var(--bg2); border: 1px solid var(--border); padding: 4rem; border-radius: 4px; }
-.header { border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: flex-end; }
-h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: .5rem; }
-.subtitle { font-size: 1rem; color: var(--green); letter-spacing: .05em; }
-.contact-info { text-align: right; font-size: .85rem; color: var(--muted); }
-.contact-info a { color: var(--text); text-decoration: none; transition: color .2s; }
-.contact-info a:hover { color: var(--green); }
-.grid { display: grid; grid-template-columns: 1fr 2.5fr; gap: 3rem; }
-.section-title { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; font-weight: 600; }
-.block { margin-bottom: 2rem; }
-.block-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .3rem; }
-.role { font-weight: 600; color: var(--text); font-size: 1rem; }
-.company { font-style: italic; color: var(--muted); font-size: .9rem; }
-.date { font-size: .8rem; color: var(--muted); }
-ul { margin-left: 1.2rem; color: var(--muted); font-size: .85rem; }
-li { margin-bottom: .4rem; }
-.skills-list { list-style: none; margin: 0; padding: 0; font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem; }
-.skills-list li { margin-bottom: .3rem; }
-.back-link { display: inline-block; margin-bottom: 2rem; color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .2s; }
-.back-link:hover { color: var(--green); }
-@media (max-width: 768px) { .grid { grid-template-columns: 1fr; gap: 2rem; } .header { flex-direction: column; align-items: flex-start; gap: 1rem; } .contact-info { text-align: left; } .container { padding: 2rem; } }
+
+/* ── PAGE SETUP ─────────────────────────── */
+html, body { height: 100%; }
+body {
+  background: var(--bg3);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 8.5pt;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── PAGE WRAPPER ───────────────────────── */
+.page {
+  width: 8.5in;
+  min-height: 11in;
+  margin: 0 auto;
+  background: var(--bg);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* ── HEADER ─────────────────────────────── */
+header {
+  background: var(--bg2);
+  border-bottom: 2px solid var(--green);
+  padding: 0.38in 0.45in 0.32in;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 1rem;
+}
+.header-name {
+  font-family: 'Fraunces', serif;
+  font-size: 30pt;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.header-name span {
+  color: var(--green);
+  font-style: italic;
+}
+.header-title {
+  font-size: 7.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  font-weight: 600;
+}
+.header-contact {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: flex-end;
+}
+.contact-item {
+  font-size: 7.5pt;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.contact-item a {
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ── BODY COLUMNS ───────────────────────── */
+.body {
+  display: grid;
+  grid-template-columns: var(--col-l) 1fr;
+}
+
+/* ── SIDEBAR ────────────────────────────── */
+.sidebar {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  padding: 0.32in 0.26in 0.4in;
+}
+
+/* ── MAIN ───────────────────────────────── */
+.main {
+  padding: 0.32in 0.4in 0.4in 0.36in;
+}
+
+/* ── SECTION TITLE ──────────────────────── */
+.section-title {
+  font-size: 6pt;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+.section-title::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 1.5px;
+  background: var(--green);
+  flex-shrink: 0;
+}
+.section-block {
+  margin-bottom: 0.42in;
+}
+.section-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ── SIDEBAR CONTENT ────────────────────── */
+.sidebar-edu-school {
+  font-family: 'Fraunces', serif;
+  font-size: 9pt;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.1rem;
+}
+.sidebar-edu-degree {
+  font-size: 8pt;
+  color: var(--text);
+  margin-bottom: 0.06rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.sidebar-edu-detail {
+  font-size: 7.5pt;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.sidebar-edu-minor {
+  font-size: 7.5pt;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 0.08rem;
+}
+
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+.skill-list li {
+  font-size: 7.5pt;
+  color: var(--text);
+  padding-left: 0.7rem;
+  position: relative;
+  line-height: 1.4;
+}
+.skill-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 3px;
+  height: 3px;
+  background: var(--green);
+  border-radius: 50%;
+}
+
+.software-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22rem;
+}
+.pill {
+  font-size: 6.5pt;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.1rem 0.32rem;
+  border-radius: 2px;
+  line-height: 1.6;
+  background: var(--bg);
+}
+
+.cert-item {
+  font-size: 7.5pt;
+  color: var(--text);
+  margin-bottom: 0.12rem;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.cert-sub {
+  font-size: 7pt;
+  color: var(--muted);
+}
+
+.award-item {
+  margin-bottom: 0.3rem;
+}
+.award-name {
+  font-size: 7.5pt;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.3;
+}
+.award-sub {
+  font-size: 7pt;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* ── MAIN CONTENT ───────────────────────── */
+.entry {
+  margin-bottom: 0.24in;
+}
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.08rem;
+}
+.entry-title {
+  font-family: 'Fraunces', serif;
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.entry-date {
+  font-size: 7pt;
+  color: var(--green);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.entry-subtitle {
+  font-size: 7.5pt;
+  color: var(--muted);
+  margin-bottom: 0.26rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+.entry-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+.entry-bullets li {
+  font-size: 7.8pt;
+  color: var(--text);
+  padding-left: 0.85rem;
+  position: relative;
+  line-height: 1.55;
+}
+.entry-bullets li::before {
+  content: '·';
+  position: absolute;
+  left: 0.2rem;
+  color: var(--green);
+  font-size: 10pt;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+/* ── HIGHLIGHT TAG ──────────────────────── */
+.highlight {
+  display: inline;
+  background: rgba(43,122,60,0.1);
+  color: var(--green);
+  padding: 0.05rem 0.25rem;
+  border-radius: 2px;
+  font-size: 6.5pt;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  margin-left: 0.3rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 1px solid rgba(43,122,60,0.2);
+}
+
+/* ── RULE ───────────────────────────────── */
+.rule {
+  height: 1px;
+  background: var(--border);
+  margin: 0.16in 0;
+}
+
+/* ── PRINT ──────────────────────────────── */
+@media print {
+  @page { size: letter; margin: 0; }
+  body { background: var(--bg2); }
+  .page { width: 100%; }
+  .screen-bar { display: none; }
+  a { color: var(--green) !important; }
+}
+
+/* ── SCREEN HELPER ──────────────────────── */
+@media screen {
+  body { padding: 0.2in 0 0.35in; }
+  .page {
+    box-shadow: 0 2px 24px rgba(0,0,0,0.12), 0 8px 48px rgba(0,0,0,0.08);
+  }
+}
 </style>
 </head>
 <body>
 
-<div style="max-width: 900px; margin: 0 auto;">
-  <a href="index.html" class="back-link">← Back to Portfolio</a>
+<!-- Screen-only nav bar -->
+<div class="screen-bar" style="width:8.5in;margin:0 auto 0.12in;display:flex;align-items:center;justify-content:space-between;padding:0.1in 0;">
+  <a href="index.html" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:7pt;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;" onmouseover="this.style.color='#2b7a3c'" onmouseout="this.style.color='#456249'">
+    ← Back to Portfolio
+  </a>
+  <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:7pt;color:var(--muted);letter-spacing:.06em;">
+    File → Print → Save as PDF &nbsp;·&nbsp; No need to enable "Background graphics" with this theme
+  </span>
 </div>
 
-<div class="container">
-  <div class="header">
-    <div>
-      <h1>Percy Holway</h1>
-      <div class="subtitle">3D Character & Creature Artist</div>
-    </div>
-    <div class="contact-info">
-      Orlando, FL<br>
-      <a href="mailto:percy.holway@gmail.com">percy.holway@gmail.com</a><br>
-      <a href="https://www.artstation.com/percyholway" target="_blank">artstation.com/percyholway</a>
-    </div>
-  </div>
+<div class="page">
 
-  <div class="grid">
-    <aside>
-      <div class="section-title">Education</div>
-      <div class="block">
-        <div class="role">University of Central Florida</div>
-        <div class="company" style="margin-bottom: .2rem;">BFA Emerging Media — Animation</div>
-        <div class="date">Expected May 2026</div>
-        <div style="font-size: .8rem; color: var(--muted); margin-top: .4rem;">Minor: Creative Writing<br>President's Honor Roll</div>
+  <!-- ── HEADER ─────────────────────────── -->
+  <header>
+    <div>
+      <div class="header-name">Percy <span>Holway.</span></div>
+      <div class="header-title">3D Character &amp; Creature Artist</div>
+    </div>
+    <div class="header-contact">
+      <div class="contact-item">Orlando, FL</div>
+      <div class="contact-item">percy.holway@gmail.com</div>
+      <div class="contact-item">
+        <a href="https://www.artstation.com/percyholway">artstation.com/percyholway</a>
+      </div>
+      <div class="contact-item">
+        <a href="index.html">percyholway.github.io/portfolio</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── BODY ───────────────────────────── -->
+  <div class="body">
+
+    <!-- ─ SIDEBAR ─────────────────────── -->
+    <aside class="sidebar">
+
+      <!-- Education -->
+      <div class="section-block">
+        <div class="section-title">Education</div>
+        <div class="sidebar-edu-school">University of Central Florida</div>
+        <div class="sidebar-edu-degree">BFA Emerging Media<br>Animation &amp; Visualization</div>
+        <div class="sidebar-edu-minor">Minor: Creative Writing</div>
+        <div class="sidebar-edu-detail" style="margin-top:0.25rem;">Expected May 2026</div>
       </div>
 
-      <div class="section-title">Software</div>
-      <ul class="skills-list">
-        <li>ZBrush</li>
-        <li>Autodesk Maya</li>
-        <li>Substance 3D Painter</li>
-        <li>Unreal Engine 5</li>
-        <li>FiberShop / GS Curve Tool</li>
-        <li>Marmoset Toolbag</li>
-        <li>Adobe CC (AE, PS, PR, AI)</li>
-      </ul>
+      <!-- Technical Skills -->
+      <div class="section-block">
+        <div class="section-title">Technical Skills</div>
+        <ul class="skill-list">
+          <li>Creature Anatomy &amp; Organic Sculpting</li>
+          <li>Hair Cards &amp; Fur Workflows<br><span style="color:var(--muted);font-size:7pt;">(FiberShop, GS Curve Tool)</span></li>
+          <li>Real-Time Asset Optimization</li>
+          <li>Retopology &amp; UV Unwrapping</li>
+          <li>PBR Texturing</li>
+          <li>Character Rigging (IK/FK)</li>
+          <li>Unreal Engine 5 Integration</li>
+          <li>3D &amp; 2D Animation</li>
+          <li>2D Concept Art &amp; Storyboarding</li>
+          <li>Motion Graphics &amp; Compositing</li>
+          <li>Scriptwriting</li>
+        </ul>
+      </div>
 
-      <div class="section-title">Technical</div>
-      <ul class="skills-list">
-        <li>Organic Sculpting & Anatomy</li>
-        <li>Retopology & UV Unwrapping</li>
-        <li>PBR Texturing & Materials</li>
-        <li>Character Rigging (IK/FK)</li>
-        <li>Hair/Fur Card Generation</li>
-        <li>Real-Time Optimization</li>
-      </ul>
+      <!-- Software -->
+      <div class="section-block">
+        <div class="section-title">Software</div>
+        <div class="software-pills">
+          <span class="pill">ZBrush</span>
+          <span class="pill">Autodesk Maya</span>
+          <span class="pill">Substance Painter</span>
+          <span class="pill">Unreal Engine 5</span>
+          <span class="pill">After Effects</span>
+          <span class="pill">Premiere Pro</span>
+          <span class="pill">Photoshop</span>
+          <span class="pill">Illustrator</span>
+          <span class="pill">ToonBoom Harmony</span>
+          <span class="pill">Marmoset Toolbag</span>
+          <span class="pill">Marvelous Designer</span>
+          <span class="pill">Blender</span>
+        </div>
+      </div>
 
-      <div class="section-title">Certifications</div>
-      <ul class="skills-list">
-        <li>Adobe Certified Professional:<br>Visual Effects & Motion Graphics</li>
-      </ul>
+      <!-- Certifications -->
+      <div class="section-block">
+        <div class="section-title">Certifications</div>
+        <div class="cert-item">Adobe Certified Professional</div>
+        <div class="cert-sub">in Adobe After Effects · Certiport</div>
+      </div>
+
+      <!-- Awards & Organizations -->
+      <div class="section-block">
+        <div class="section-title">Awards &amp; Orgs</div>
+        <div class="award-item">
+          <div class="award-name">UCF President's Honor Roll</div>
+          <div class="award-sub">Fall 2023, Spring 2024</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">UCF Dean's List</div>
+          <div class="award-sub">Fall 2022, Spring 2024</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">VP — Kappa Pi Art Honors</div>
+          <div class="award-sub">Fall 2023 – Spring 2024</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">We In Animation (WIA)</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">UCF Knight Riders</div>
+        </div>
+      </div>
+
     </aside>
 
-    <main>
-      <div class="section-title">Experience</div>
-      
-      <div class="block">
-        <div class="block-header">
-          <div><span class="role">Freelance Character Artist</span> <span class="company">· Self-Employed</span></div>
-          <div class="date">2022 — Present</div>
+    <!-- ─ MAIN ───────────────────────── -->
+    <main class="main">
+
+      <!-- Featured Projects -->
+      <div class="section-block">
+        <div class="section-title">Featured Projects</div>
+
+        <!-- Aetheria / Independent Study -->
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">
+              <em style="font-style:italic;">Aetheria</em> — Independent Study: Advanced Creature Design
+              <span class="highlight">Academic</span>
+            </div>
+            <div class="entry-date">Spring 2026</div>
+          </div>
+          <div class="entry-subtitle">Individual Project — ZBrush · Maya · Substance 3D Painter · Unreal Engine 5</div>
+          <ul class="entry-bullets">
+            <li>Completed a full creature pipeline independently within a 16-week semester — organic sculpting, retopology, PBR texturing, and Unreal Engine 5 integration; thesis work selected for exhibition at a juried gallery opening attended by hundreds of individuals (April 2026).</li>
+            <li>Implemented hair card solutions using FiberShop and GS Curve Tool; built custom ZBrush Alphas to streamline surface detailing and reduce manual grooming time by approximately 30%.</li>
+            <li>Prioritized anatomically accurate creature proportions and real-time mesh optimization, producing a game-ready asset with proper LOD consideration and clean UV layouts.</li>
+            <li>Incorporated structured feedback from course instructor across multiple critique sessions, iterating on anatomy, silhouette, and material reads throughout production.</li>
+          </ul>
         </div>
-        <ul>
-          <li>Conceptualized and delivered 20+ custom digital character and asset commissions for private clients.</li>
-          <li>Managed the full creative lifecycle including initial client consultation, feedback loops, iteration, and final high-resolution delivery.</li>
-          <li>Maintained a 100% on-time delivery rate while balancing concurrent project deadlines.</li>
-        </ul>
+
+        <!-- Mol's Morsels -->
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">
+              Short Film: <em style="font-style:italic;">Mol's Morsels</em>
+              <span class="highlight">Collaborative</span>
+            </div>
+            <div class="entry-date">Spring 2026</div>
+          </div>
+          <div class="entry-subtitle">Creature Artist &amp; Rigger — Student Short Film Production</div>
+          <ul class="entry-bullets">
+            <li>Responsible for all creature modeling, rigging, and texturing for the hero character in ZBrush and Maya; worked within the film's production schedule and incorporated director feedback throughout asset development.</li>
+            <li>Delivered a fully rigged creature that required zero rig corrections during the animation phase, enabling the animation team to work without interruption.</li>
+            <li>Authored PBR materials in Substance 3D Painter; coordinated with the animation and compositing team on look-dev and final integration; delivered one week ahead of deadline.</li>
+          </ul>
+        </div>
+
+        <!-- Python Challenge / Croc Docs -->
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">
+              Instructional Video: Python Challenge — Ethical Euthanasia Guide
+              <span class="highlight">Collaborative</span>
+            </div>
+            <div class="entry-date">2024</div>
+          </div>
+          <div class="entry-subtitle">Scriptwriter &amp; 2D Concept Artist — The Croc Docs</div>
+          <ul class="entry-bullets">
+            <li>Co-wrote the script for an instructional video produced for Florida's Python Challenge, targeting all registered participants with guidance on the ethical and humane euthanasia of invasive Burmese pythons.</li>
+            <li>Created 2D concept art and visual references used throughout the production to communicate key procedural steps clearly to a general audience.</li>
+            <li>Collaborated with the production team on content accuracy, visual tone, and pacing to ensure the video met both educational and compliance standards for conservation outreach.</li>
+          </ul>
+        </div>
+
+        <!-- Dr. Phillips Exhibition -->
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Dr. Phillips Performing Arts Center Exhibition</div>
+            <div class="entry-date">Fall 2022</div>
+          </div>
+          <div class="entry-subtitle">Exhibiting Artist — Public Juried Showcase</div>
+          <ul class="entry-bullets">
+            <li>Designed and exhibited a six-foot physical sculpture at a public showcase with 1,000+ attendees; work selected for display alongside faculty and community artists.</li>
+          </ul>
+        </div>
+
       </div>
 
-    <div class="block">
-        <div class="block-header">
-          <div><span class="role">Scriptwriter & 2D Artist</span> <span class="company">· The Croc Docs</span></div>
-          <div class="date">2025 — Present</div>
-        </div>
-        <ul>
-          <li>Developed narrative scripts and storyboards, structuring pacing and dialogue for production.</li>
-          <li>Created 2D character concepts, environmental assets, and illustrations to establish and support the project's visual direction.</li>
-          <li>Collaborated closely with the production team to ensure visual and narrative consistency from initial concept to final execution.</li>
-        </ul>
-      </div>
+      <div class="rule"></div>
 
-      <div class="block">
-        <div class="block-header">
-          <div><span class="role">Marketing Strategist</span> <span class="company">· UCF Office of Academic Advocacy</span></div>
-          <div class="date">2024 — 2025</div>
-        </div>
-        <ul>
-          <li>Produced motion graphics and design assets supporting 5+ campus events per semester.</li>
-          <li>Collaborated with a student team to develop targeted marketing plans and cross-platform campaigns.</li>
-        </ul>
-      </div>
+      <!-- Experience -->
+      <div class="section-block">
+        <div class="section-title">Experience</div>
 
-      <div class="block">
-        <div class="block-header">
-          <div><span class="role">Barista</span></div>
-          <div class="date">Present</div>
+        <!-- Freelance -->
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Freelance Character Artist · Self-Employed</div>
+            <div class="entry-date">2022 – Present</div>
+          </div>
+          <div class="entry-subtitle">Orlando, FL</div>
+          <ul class="entry-bullets">
+            <li>Delivered custom digital character commissions for private clients, managing the full creative lifecycle from initial brief and consultation to iteration and final high-resolution delivery.</li>
+            <li>Developed structured client communication and revision workflows, incorporating multiple rounds of feedback to meet client vision while maintaining clear production timelines.</li>
+            <li>Designed apparel graphics — including a featured T-shirt for a Florida collegiate arts organization — distributed across a student body of 60,000+.</li>
+          </ul>
         </div>
-        <ul>
-          <li>Manage fast-paced customer service workflows, requiring clear communication and immediate problem-solving.</li>
-          <li>Demonstrate adaptability and strong teamwork within a highly collaborative, high-pressure shift environment.</li>
-        </ul>
-      </div>
 
-      <div class="section-title" style="margin-top: 3rem;">Featured Projects</div>
-
-      <div class="block">
-        <div class="block-header">
-          <div><span class="role">Aetheria (Advanced Creature Design)</span> <span class="company">· Independent Study</span></div>
-          <div class="date">Spring 2026</div>
+        <!-- UCF Marketing -->
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Marketing Strategist · UCF Office of Academic Advocacy</div>
+            <div class="entry-date">2024 – 2025</div>
+          </div>
+          <div class="entry-subtitle">Orlando, FL</div>
+          <ul class="entry-bullets">
+            <li>Produced motion graphics and Adobe Creative Suite assets supporting 5+ campus events and multi-platform social campaigns per semester.</li>
+            <li>Collaborated with a student team to develop targeted marketing plans and visual content strategies, boosting brand visibility across UCF's student body.</li>
+          </ul>
         </div>
-        <ul>
-          <li>Created a full creature pipeline as an individual academic project, from initial concept to Unreal Engine 5 integration.</li>
-          <li>Sculpted high-fidelity anatomical details in ZBrush and generated optimized retopology in Maya.</li>
-          <li>Built custom Alphas and utilized FiberShop and GS Curve Tool to author realistic hair solutions, cutting manual texturing time by ~30%.</li>
-        </ul>
-      </div>
 
-      <div class="block">
-        <div class="block-header">
-          <div><span class="role">Mol's Morsels</span> <span class="company">· Short Film</span></div>
-          <div class="date">Spring 2026</div>
-        </div>
-        <ul>
-          <li>Responsible for all aspects of modeling, rigging, and texturing for a hero creature within a student production pipeline.</li>
-          <li>Delivered a robust character rig that required zero technical corrections during the animation phase.</li>
-          <li>Authored PBR materials in Substance Painter and delivered the final asset one week ahead of the production deadline.</li>
-        </ul>
       </div>
 
     </main>
-  </div>
-</div>
+  </div><!-- end .body -->
+
+</div><!-- end .page -->
 
 </body>
 </html>
