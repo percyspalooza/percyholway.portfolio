@@ -241,47 +241,70 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .proj-count::before { content:''; display:block; width:4px; height:4px; background:var(--green); border-radius:50%; }
 
-/* ── LIGHTBOX ────────────────────────────── */
+/* ── LIGHTBOX — ArtStation-style side panel ── */
 .lightbox {
   position:fixed; inset:0; z-index:1000;
-  background:rgba(7,14,8,.97);
-  display:none; align-items:center; justify-content:center;
+  background:rgba(5,10,6,.72);
+  display:none; justify-content:flex-end;
+  backdrop-filter:blur(3px);
 }
 .lightbox.open { display:flex; }
-.lb-inner { position:relative; width:88vw; max-width:1080px; }
+.lb-panel {
+  width:min(900px,100vw); height:100vh;
+  background:var(--bg); border-left:1px solid var(--border);
+  display:flex; flex-direction:column; overflow:hidden;
+  transform:translateX(100%); transition:transform .38s cubic-bezier(.22,1,.36,1);
+}
+.lightbox.open .lb-panel { transform:translateX(0); }
+.lb-header {
+  padding:1.35rem 2.2rem; flex-shrink:0;
+  background:var(--bg2); border-bottom:1px solid var(--border);
+  display:flex; align-items:flex-start; justify-content:space-between; gap:1rem;
+}
+.lb-header-left { flex:1; min-width:0; }
+.lb-title {
+  font-family:'Fraunces',serif; font-size:1.25rem; font-weight:700;
+  color:var(--text); line-height:1.25; margin-bottom:.45rem;
+}
+.lb-tags { display:flex; gap:.35rem; flex-wrap:wrap; }
+.lb-tag {
+  font-size:.57rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green); background:rgba(108,196,125,.09);
+  padding:.18rem .5rem; border-radius:2px;
+}
 .lb-close {
-  position:absolute; top:-3rem; right:0;
-  background:none; border:none; color:var(--muted);
-  font-size:1.4rem; cursor:none; transition:color .2s;
-}
-.lb-close:hover { color:var(--green); }
-.lb-main { width:100%; background:var(--bg3); }
-.lb-main img, .lb-main video { width:100%; max-height:68vh; object-fit:contain; display:block; }
-.lb-nav-row { display:flex; justify-content:space-between; margin-top:.5rem; }
-.lb-prev,.lb-next {
-  background:rgba(7,14,8,.8); border:1px solid var(--border);
-  color:var(--muted); width:42px; height:42px;
+  background:none; border:1px solid var(--border); color:var(--muted);
+  width:34px; height:34px; border-radius:2px; flex-shrink:0;
   display:flex; align-items:center; justify-content:center;
-  cursor:none; transition:color .2s,border-color .2s; font-size:1rem;
+  cursor:none; transition:color .2s,border-color .2s; font-size:.95rem;
 }
-.lb-prev:hover,.lb-next:hover { color:var(--green); border-color:var(--green); }
-.lb-thumbs { display:flex; gap:.5rem; margin-top:.8rem; overflow-x:auto; padding-bottom:.3rem; }
-.lb-thumb {
-  width:72px; height:50px; object-fit:cover;
-  opacity:.4; cursor:none; flex-shrink:0;
-  transition:opacity .2s; border:1px solid transparent;
+.lb-close:hover { color:var(--green); border-color:var(--green); }
+.lb-scroll { flex:1; overflow-y:auto; scroll-behavior:smooth; }
+.lb-desc-block {
+  padding:2rem 2.2rem 1.8rem; border-bottom:1px solid var(--border);
 }
-.lb-thumb.active { opacity:1; border-color:var(--green); }
-.lb-thumb-video {
-  width:72px; height:50px; background:var(--bg3); border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  cursor:none; opacity:.4; flex-shrink:0; transition:opacity .2s;
+.lb-desc-label {
+  font-size:.6rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--green); margin-bottom:1rem;
+  display:flex; align-items:center; gap:.5rem;
 }
-.lb-thumb-video.active { opacity:1; border-color:var(--green); }
-.lb-thumb-video span { font-size:.58rem; color:var(--muted); text-transform:uppercase; }
-.lb-info { margin-top:.8rem; display:flex; justify-content:space-between; align-items:flex-end; }
-.lb-title { font-family:'Fraunces',serif; font-size:1rem; font-weight:700; color:var(--text); }
-.lb-counter { font-size:.7rem; color:var(--muted); letter-spacing:.1em; }
+.lb-desc-label::before { content:''; display:block; width:14px; height:1px; background:var(--green); }
+.lb-desc-text { font-size:.9rem; color:var(--muted); line-height:1.9; max-width:700px; }
+.lb-desc-text p+p { margin-top:1rem; }
+.lb-img-section {
+  padding:1.8rem 2.2rem; border-bottom:1px solid var(--border);
+}
+.lb-img-section:last-child { border-bottom:none; padding-bottom:3rem; }
+.lb-img-label {
+  font-size:.58rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:.9rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.lb-img-label::before { content:''; display:block; width:10px; height:1px; background:var(--border); }
+.lb-img-section img {
+  width:100%; display:block; background:var(--bg3); border:1px solid var(--border);
+}
+.lb-img-section video { width:100%; display:block; background:#000; }
 
 /* ── ABOUT ───────────────────────────────── */
 #about { background: var(--bg); border-top: 1px solid var(--border); }
@@ -452,19 +475,22 @@ footer {
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-  <div class="lb-inner">
-    <button class="lb-close" id="lbClose">✕</button>
-    <div class="lb-main" id="lbMain"></div>
-    <div class="lb-nav-row">
-      <button class="lb-prev" id="lbPrev">← Prev</button>
-      <button class="lb-next" id="lbNext">Next →</button>
+<!-- LIGHTBOX — ArtStation-style side panel -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
+  <div class="lb-panel" id="lbPanel">
+    <div class="lb-header">
+      <div class="lb-header-left">
+        <div class="lb-title" id="lbTitle"></div>
+        <div class="lb-tags" id="lbTags"></div>
+      </div>
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
     </div>
-    <div class="lb-thumbs" id="lbThumbs"></div>
-    <div class="lb-info">
-      <div class="lb-title" id="lbTitle"></div>
-      <div class="lb-counter" id="lbCounter"></div>
+    <div class="lb-scroll" id="lbScroll">
+      <div class="lb-desc-block" id="lbDescBlock">
+        <div class="lb-desc-label">About this project</div>
+        <div class="lb-desc-text" id="lbDesc"></div>
+      </div>
+      <div id="lbImages"></div>
     </div>
   </div>
 </div>
@@ -641,6 +667,7 @@ const C = {
       title: "Hector — Eel Creature Model",
       tags: ["Creature", "Full Pipeline", "PBR Textured", "2025"],
       desc: "Full creature pipeline — ZBrush sculpt, Maya retopology & rigging prep, PBR texturing in Substance Painter. Dynamic pose showcasing scale work and fin detail.",
+      description: "Hector began as an exploration of deep-sea creature anatomy — specifically how elongated fish bodies like morays translate into a character-readable biped without losing their aquatic identity. The full pipeline ran from initial gesture sculpt in ZBrush through retopology in Maya, PBR texturing in Substance 3D Painter, and final render setup in Marmoset Toolbag.\n\nScale patterning, fin ray structure, and the iridescent sheen of the skin were all grounded in reference photography of live moray eels. The dynamic posed render was a deliberate choice to communicate personality and weight — showing Hector mid-motion rather than in a neutral T-pose.",
       images: [
         "Portfolio Images/Hector/EelLad01.png",
         "Portfolio Images/Hector/EelLad02.png",
@@ -654,6 +681,7 @@ const C = {
       title: "Aetheria — Advanced Creature Study",
       tags: ["Thesis", "Creature", "ZBrush", "UE5"],
       desc: "Independent study thesis piece. Full ZBrush & Maya pipeline synthesizing the power of an American Alligator with the serpentine elegance of a False-Water Cobra and Boa Imperator, balanced by the lean features of a Pine Marten.",
+      description: "Aetheria is my BFA thesis piece and the most technically demanding project in my portfolio. The creature synthesizes three real-world species — the American Alligator for raw structural power, the False-Water Cobra and Boa Imperator for serpentine elegance in the neck and tail, and the Pine Marten for the lean facial proportions and alert expressiveness.\n\nThe goal was a creature that reads as genuinely biological: every design decision had to be justifiable through real anatomy. Hair card work was built in FiberShop and GS Curve Tool, and the full asset was integrated into Unreal Engine 5 for real-time presentation. Aetheria was selected for exhibition at a juried gallery opening in April 2026, attended by hundreds of visitors.",
       images: [
         "Portfolio Images/Thesis Creature/serpent_faceclose.jpg",
         "Portfolio Images/Thesis Creature/serpent_sideclose.jpg",
@@ -669,6 +697,7 @@ const C = {
       title: "Zigmol — Mol's Morsels",
       tags: ["Character", "Short Film", "Rigged"],
       desc: "Hero creature for student short film. Responsible for full sculpt, retopology, and rigging — zero rig corrections needed during the animation phase. Delivered one week ahead of deadline.",
+      description: "Zigmol is the hero creature from Mol's Morsels, a student short film produced at UCF. As the sole artist responsible for the creature's design execution, I handled the full sculpt in ZBrush, retopology in Maya, PBR texturing in Substance 3D Painter, and rigging with a clean IK/FK system.\n\nThe rig shipped with zero corrections needed during the animation phase — the animation team was able to work without interruption from handoff onward. Asset delivery came in one week ahead of schedule. Zigmol required a balance between expressive character appeal and technical cleanliness, since everything had to hold up in motion.",
       images: [
         "Portfolio Images/Zigmol/mol.png",
         "Portfolio Images/Zigmol/mol2.png",
@@ -682,8 +711,9 @@ const C = {
     {
       id: "gar",
       title: "Alligator Gar — Anatomy Study",
-      tags: ["Anatomy", "Creature", "ZBrush"],
+      tags: ["Anatomy", "Creature", "ZBrush", "Full Pipeline"],
       desc: "Anatomy study of the prehistoric alligator gar — fin rays, lateral line, and elongated rostrum sculpted from reference.",
+      description: "This project serves as a comprehensive demonstration of a standard industry production pipeline, directly supporting my ambition to work professionally as a 3D creature artist. By taking this asset from an initial concept sculpt all the way through texturing, posing, and final rendering, I was able to test and troubleshoot technical hand-offs between software; specifically leveraging the new ZBrush-to-Substance integration to increase workflow efficiency.\n\nGrounding the creature's textures in the real-world biology of an albino alligator gar allowed me to push the realism of the design, marrying technical execution with biological accuracy. While there are certainly technical aspects I would approach differently in hindsight, recognizing that this asset originated as a four-hour practice speed sculpt, I am incredibly proud of the final outcome. Ultimately, this piece strengthens my portfolio by proving my ability to rapidly prototype a concept and push it through a complete production pipeline to deliver a fully realized, rigged asset.",
       images: [
         "Portfolio Images/Alligator Gar/Side Render.jpg",
         "Portfolio Images/Alligator Gar/Side posed.jpg",
@@ -703,6 +733,7 @@ const C = {
       title: "Deer Creature",
       tags: ["Creature", "ZBrush", "WIP"],
       desc: "3D creature sculpt exploring anatomy and quadrupedal forms.",
+      description: "An early-stage creature design exploring quadrupedal anatomy and hybrid form-building. The Deer Creature combines the skeletal structure and musculature of a white-tailed deer with more fantastical, unsettling proportions — pushing the silhouette toward something that reads as familiar but wrong in a satisfying way.\n\nThis is an active WIP. Future plans include full retopology, PBR texturing, and a posed render that communicates the creature's temperament and scale.",
       images: [
         "Portfolio Images/Deer Creature/1.jpg",
         "Portfolio Images/Deer Creature/2.jpg",
@@ -715,6 +746,7 @@ const C = {
       title: "Human Hand Study",
       tags: ["Anatomy", "ZBrush", "Render"],
       desc: "Anatomical hand sculpt studying tendon, knuckle, and surface vein structure. Rendered in Marmoset.",
+      description: "An anatomical study of the human hand sculpted in ZBrush and rendered in Marmoset Toolbag. The focus was on structural accuracy — the way metacarpal and phalangeal bones read through skin, tendon routing across the dorsum, and how subcutaneous veins and knuckle creases interact with the surface under different lighting conditions.\n\nThis kind of foundational anatomy work feeds directly into creature design. Understanding how the human hand articulates makes it easier to build and rig creature appendages with convincing flexibility, weight, and organic believability.",
       images: [
         "Portfolio Images/Hand/HandRender.jpg",
         "Portfolio Images/Hand/Hand1.jpg"
@@ -804,9 +836,7 @@ document.getElementById('about-stats').innerHTML = C.about.stats.map(s=>
 // Projects — encode paths for GitHub Pages
 document.getElementById('projects-grid').innerHTML = C.projects.map((p,i)=>`
   <div class="project-card reveal" style="transition-delay:${(i*.07).toFixed(2)}s"
-    data-title="${esc(p.title)}"
-    data-images='${JSON.stringify(p.images.map(imgUrl))}'
-    data-types='${JSON.stringify(p.types)}'>
+    data-id="${esc(p.id)}">
     <div class="proj-img">
       <img src="${imgUrl(p.images[0])}" alt="${esc(p.title)}" loading="lazy"
         onerror="this.parentElement.style.minHeight='180px'">
@@ -816,7 +846,7 @@ document.getElementById('projects-grid').innerHTML = C.projects.map((p,i)=>`
       <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${esc(t)}</span>`).join('')}</div>
       <div class="proj-name">${esc(p.title)}</div>
       <div class="proj-desc">${esc(p.desc)}</div>
-      <div class="proj-count">${p.images.length} view${p.images.length!==1?'s':''}${p.types.includes('video')?' + video':''}</div>
+      <div class="proj-count">${p.images.length} image${p.images.length!==1?'s':''}${p.types.includes('video')?' + video':''}</div>
     </div>
   </div>`).join('');
 
@@ -898,63 +928,59 @@ const ro=new IntersectionObserver(
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
 /* ══════════════════════════════════════════
-   LIGHTBOX
+   LIGHTBOX — ArtStation-style panel
 ══════════════════════════════════════════ */
-let lbImgs=[],lbTypes=[],lbIdx=0;
-const lb=document.getElementById('lightbox');
-const lbMain=document.getElementById('lbMain');
-const lbThumbs=document.getElementById('lbThumbs');
-const lbTitleEl=document.getElementById('lbTitle');
-const lbCounterEl=document.getElementById('lbCounter');
+const lb        = document.getElementById('lightbox');
+const lbTitleEl = document.getElementById('lbTitle');
+const lbTagsEl  = document.getElementById('lbTags');
+const lbDescEl  = document.getElementById('lbDesc');
+const lbDescBlk = document.getElementById('lbDescBlock');
+const lbImgsEl  = document.getElementById('lbImages');
 
-function openLB(imgs,types,title){
-  lbImgs=imgs; lbTypes=types; lbIdx=0;
-  lbTitleEl.textContent=title;
+function openLB(proj){
+  // Header
+  lbTitleEl.textContent = proj.title;
+  lbTagsEl.innerHTML    = proj.tags.map(t=>`<span class="lb-tag">${esc(t)}</span>`).join('');
+  // Description (supports \n\n paragraph breaks)
+  const desc  = proj.description || proj.desc || '';
+  const paras = desc.split(/\n\n+/).filter(Boolean);
+  lbDescEl.innerHTML      = paras.map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+  lbDescBlk.style.display = desc ? '' : 'none';
+  // Images — each in its own section
+  const total = proj.images.length;
+  lbImgsEl.innerHTML = proj.images.map((rawSrc,i)=>{
+    const src   = imgUrl(rawSrc);
+    const type  = proj.types[i];
+    const label = `${String(i+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+    const media = type==='video'
+      ? `<video src="${src}" controls style="width:100%;display:block;background:#000;"></video>`
+      : `<img src="${src}" alt="${esc(proj.title)} — view ${i+1}" loading="${i===0?'eager':'lazy'}">`;
+    return `<div class="lb-img-section">
+      <div class="lb-img-label">${label}</div>
+      ${media}
+    </div>`;
+  }).join('');
+  // Open
   lb.classList.add('open');
-  document.body.style.overflow='hidden';
-  renderLB();
+  document.body.style.overflow = 'hidden';
+  document.getElementById('lbScroll').scrollTop = 0;
 }
 function closeLB(){
   lb.classList.remove('open');
-  document.body.style.overflow='';
-  const v=lbMain.querySelector('video'); if(v)v.pause();
+  document.body.style.overflow = '';
+  lbImgsEl.querySelectorAll('video').forEach(v=>v.pause());
 }
-function renderLB(){
-  const v=lbMain.querySelector('video'); if(v)v.pause();
-  const src=lbImgs[lbIdx], type=lbTypes[lbIdx];
-  lbMain.innerHTML=type==='video'
-    ?`<video src="${src}" controls autoplay style="width:100%;max-height:68vh;background:#000;display:block;"></video>`
-    :`<img src="${src}" alt="view ${lbIdx+1}">`;
-  lbCounterEl.textContent=(lbIdx+1)+' / '+lbImgs.length;
-  lbThumbs.innerHTML='';
-  lbImgs.forEach((s,i)=>{
-    if(lbTypes[i]==='video'){
-      const d=document.createElement('div');
-      d.className='lb-thumb-video'+(i===lbIdx?' active':'');
-      d.innerHTML='<span>▶ Video</span>';
-      d.onclick=()=>{lbIdx=i;renderLB();};
-      lbThumbs.appendChild(d);
-    } else {
-      const img=document.createElement('img');
-      img.src=s; img.className='lb-thumb'+(i===lbIdx?' active':'');
-      img.onclick=()=>{lbIdx=i;renderLB();};
-      lbThumbs.appendChild(img);
-    }
-  });
-}
-document.getElementById('lbClose').onclick=closeLB;
-document.getElementById('lbPrev').onclick=()=>{lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;renderLB();};
-document.getElementById('lbNext').onclick=()=>{lbIdx=(lbIdx+1)%lbImgs.length;renderLB();};
-lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
-document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('open'))return;
-  if(e.key==='Escape')closeLB();
-  if(e.key==='ArrowLeft'){lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;renderLB();}
-  if(e.key==='ArrowRight'){lbIdx=(lbIdx+1)%lbImgs.length;renderLB();}
+document.getElementById('lbClose').onclick = closeLB;
+lb.addEventListener('click', e=>{ if(e.target===lb) closeLB(); });
+document.addEventListener('keydown', e=>{
+  if(lb.classList.contains('open') && e.key==='Escape') closeLB();
 });
-document.getElementById('projects-grid').addEventListener('click',e=>{
-  const card=e.target.closest('.project-card');
-  if(card) openLB(JSON.parse(card.dataset.images),JSON.parse(card.dataset.types),card.dataset.title);
+document.getElementById('projects-grid').addEventListener('click', e=>{
+  const card = e.target.closest('.project-card');
+  if(card){
+    const proj = C.projects.find(p=>p.id===card.dataset.id);
+    if(proj) openLB(proj);
+  }
 });
 
 /* ══════════════════════════════════════════
