@@ -75,6 +75,19 @@ body > nav {
 }
 .nav-links a.nav-resume:hover { color: var(--green); border-color: var(--green); }
 
+/* ── FIREFLY ─────────────────────────────── */
+.firefly {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  animation: flyGlow var(--dur,8s) var(--delay,0s) infinite ease-in-out;
+}
+@keyframes flyGlow {
+  0%   { transform: translate(0,0);                  opacity: 0; }
+  20%  { opacity: var(--peak,.6); }
+  50%  { transform: translate(var(--dx,20px),var(--dy,-30px)); opacity: var(--peak,.6); }
+  80%  { opacity: var(--peak,.6); }
+  100% { transform: translate(0,0);                  opacity: 0; }
+}
+
 /* ── HERO ────────────────────────────────── */
 #hero {
   min-height: 100vh;
@@ -99,28 +112,19 @@ body > nav {
   position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
   background: linear-gradient(to top, var(--bg), transparent);
 }
-.firefly {
-  position: absolute; border-radius: 50%; pointer-events: none;
-  animation: flyGlow var(--dur, 8s) var(--delay, 0s) infinite ease-in-out;
-}
-@keyframes flyGlow {
-  0%   { opacity: 0; transform: translate(0,0) scale(1); }
-  20%  { opacity: var(--peak, .6); }
-  50%  { opacity: .15; transform: translate(var(--dx,30px), var(--dy,-40px)) scale(1.5); }
-  80%  { opacity: var(--peak, .5); }
-  100% { opacity: 0; transform: translate(0,0) scale(1); }
-}
 .hero-eyebrow {
-  font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
-  color: var(--sage); margin-bottom: 1.5rem;
-  display: flex; align-items: center; gap: 1rem;
+  position: relative; z-index: 1;
+  font-size: .7rem; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 1.5rem;
   opacity: 0; animation: fadeUp .7s .3s forwards;
 }
-.hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--sage); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
 .hero-title {
+  position: relative; z-index: 1;
   font-family: 'Fraunces', serif;
-  font-size: clamp(5rem,13vw,13rem);
-  line-height: .88; letter-spacing: .01em; font-weight: 900;
+  font-size: clamp(4.5rem,12vw,11rem);
+  font-weight: 900; line-height: .9; letter-spacing: .01em;
 }
 .hero-title .line1 {
   display: block; color: var(--text);
@@ -137,6 +141,7 @@ body > nav {
   margin-top: 3rem;
   display: flex; align-items: flex-end; justify-content: space-between;
   opacity: 0; animation: fadeUp .7s .85s forwards;
+  position: relative; z-index: 1;
 }
 .hero-desc {
   max-width: 380px; font-size: .93rem; line-height: 1.9;
@@ -173,6 +178,7 @@ body > nav {
   background: linear-gradient(to bottom, var(--green), transparent);
   animation: scrollPulse 2s infinite;
 }
+@keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
 /* ── SHARED ──────────────────────────────── */
 section { padding: 8rem 5rem; position: relative; }
@@ -337,6 +343,14 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .about-badge strong { font-family:'Fraunces',serif; font-size:2.4rem; font-weight:900; line-height:1; }
 .about-badge span { font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500; line-height:1.4; }
+.about-working {
+  position: absolute; bottom: -1rem; left: -1.8rem; z-index: 3;
+  width: 48%; max-width: 210px;
+  border: 3px solid var(--bg);
+  box-shadow: 0 6px 28px rgba(0,0,0,.55);
+  overflow: hidden;
+}
+.about-working img { width: 100%; display: block; object-fit: cover; }
 .about-content h2 {
   font-family: 'Fraunces', serif; font-size: 2.1rem; font-weight: 700;
   color: var(--text); margin-bottom: 1.5rem; line-height: 1.25;
@@ -373,10 +387,7 @@ section { padding: 8rem 5rem; position: relative; }
   transition:border-color .3s, color .3s;
 }
 .tool-pill:hover { border-color:var(--green); color:var(--green); }
-
-/* Skill chip grid — replaces progress bars */
 .skill-categories { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
-.skill-category { }
 .skill-chip-grid { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:1rem; }
 .skill-chip {
   font-size:.72rem; letter-spacing:.06em;
@@ -389,41 +400,38 @@ section { padding: 8rem 5rem; position: relative; }
 .skill-chip:hover { border-color:var(--green); color:var(--green); background:rgba(108,196,125,.1); }
 
 /* ── CONTACT ─────────────────────────────── */
-#contact { background:var(--bg); }
-.contact-wrap { display:grid; grid-template-columns:1fr 1.2fr; gap:8rem; align-items:start; }
-.contact-info p { color:var(--muted); line-height:1.9; font-size:.93rem; margin-bottom:2.5rem; }
-.contact-links { display:flex; flex-direction:column; }
+#contact { background:var(--bg); border-top:1px solid var(--border); }
+.contact-wrap { display:grid; grid-template-columns:1fr 1.4fr; gap:7rem; margin-top:-1rem; }
+.contact-links { display:flex; flex-direction:column; gap:1rem; margin-top:2rem; }
 .contact-link {
   display:flex; align-items:center; gap:1rem;
-  color:var(--muted); text-decoration:none; font-size:.84rem;
-  transition:color .3s; padding:.9rem 0; border-bottom:1px solid var(--border);
+  color:var(--muted); text-decoration:none;
+  font-size:.88rem; transition:color .3s;
 }
 .contact-link:hover { color:var(--green); }
 .contact-icon {
-  width:36px; height:36px; border:1px solid var(--border); border-radius:2px;
+  width:42px; height:42px; border:1px solid var(--border);
   display:flex; align-items:center; justify-content:center;
-  font-size:.85rem; transition:border-color .3s; flex-shrink:0;
+  font-size:.8rem; flex-shrink:0; transition:border-color .3s;
 }
 .contact-link:hover .contact-icon { border-color:var(--green); }
 .contact-form { display:flex; flex-direction:column; gap:1.2rem; }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
-.form-group { display:flex; flex-direction:column; gap:.45rem; }
-.form-group label { font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
-.form-group input,.form-group textarea {
-  background:var(--bg2); border:1px solid var(--border);
-  color:var(--text); padding:.85rem 1rem; border-radius:2px;
-  font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; font-weight:300;
-  outline:none; transition:border-color .3s; resize:none;
+.form-group { display:flex; flex-direction:column; gap:.5rem; }
+.form-group label { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.form-group input, .form-group textarea {
+  background:var(--bg2); border:1px solid var(--border); color:var(--text);
+  padding:.85rem 1rem; font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.88rem; font-weight:300; outline:none; cursor:none;
+  transition:border-color .3s;
 }
-.form-group input:focus,.form-group textarea:focus { border-color:var(--green); }
-.form-group textarea { min-height:130px; }
-.form-group input::placeholder,.form-group textarea::placeholder { color:var(--muted); opacity:.5; }
+.form-group input:focus, .form-group textarea:focus { border-color:var(--green); }
+.form-group textarea { min-height:140px; resize:vertical; }
 .btn-submit {
   background:transparent; border:1px solid var(--green); color:var(--green);
-  padding:1rem 2.5rem; border-radius:2px;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:.74rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
-  cursor:none; transition:background .3s,color .3s; align-self:flex-start;
+  padding:.9rem 2.2rem; font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.74rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  cursor:none; transition:background .3s, color .3s; align-self:flex-start;
 }
 .btn-submit:hover { background:var(--green); color:var(--bg); }
 
@@ -444,29 +452,27 @@ footer {
 
 /* ── REVEAL ──────────────────────────────── */
 .reveal { opacity:0; transform:translateY(28px); transition:opacity .75s ease,transform .75s ease; }
-.reveal.visible { opacity:1; transform:translateY(0); }
-
-/* ── KEYFRAMES ───────────────────────────── */
-@keyframes fadeUp { from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);} }
-@keyframes fadeIn { from{opacity:0;}to{opacity:1;} }
-@keyframes scrollPulse { 0%,100%{opacity:1;}50%{opacity:.3;} }
+.reveal.visible { opacity:1; transform:none; }
 
 /* ── RESPONSIVE ──────────────────────────── */
-@media(max-width:960px){
-  nav{padding:1.5rem 2rem;}
-  .nav-links{display:none;}
-  section{padding:5rem 2rem;}
-  #hero{padding:0 2rem 4rem;}
-  .hero-bottom{flex-direction:column;align-items:flex-start;gap:2rem;}
-  .about-grid,.skills-layout,.contact-wrap{grid-template-columns:1fr;gap:3rem;}
+@media(max-width:900px){
+  body > nav{padding:1.4rem 2rem;}
+  section{padding:6rem 2rem;}
+  .about-grid{grid-template-columns:1fr; gap:4rem;}
   .about-badge{right:0;}
   .masonry-grid{columns:2 200px;}
   .skill-categories{grid-template-columns:1fr;}
   footer{flex-direction:column;gap:1.5rem;padding:2rem;text-align:center;}
   .form-row{grid-template-columns:1fr;}
+  .contact-wrap{grid-template-columns:1fr;gap:3rem;}
+  .skills-layout{grid-template-columns:1fr;gap:4rem;}
+  .hero-bottom{flex-direction:column;gap:2rem;align-items:flex-start;}
 }
 @media(max-width:500px){
-  .masonry-grid{columns:1;}
+  body > nav{padding:1.2rem 1.5rem;}
+  .nav-links{gap:1.2rem;}
+  section{padding:5rem 1.5rem;}
+  .hero-title{font-size:clamp(3rem,15vw,5rem);}
 }
 </style>
 </head>
@@ -524,7 +530,7 @@ footer {
     </p>
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View My Work</a>
-      <a href="https://www.artstation.com/percyholway" target="_blank" class="btn-ghost" id="hero-arstation">ArtStation ↗</a>
+      <a href="https://www.artstation.com/percyholway" target="_blank" class="btn-ghost" id="hero-artstation">ArtStation ↗</a>
     </div>
   </div>
   <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
@@ -547,7 +553,7 @@ footer {
 <!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
-    <div class="about-visual reveal">
+    <div class="about-visual reveal" id="about-visual">
       <div class="about-img-wrap" id="about-img-wrap">
         <div class="about-placeholder">
           <div class="about-initials" id="about-initials">PH</div>
@@ -643,12 +649,13 @@ const C = {
   },
   about: {
     yearsCreating: "4+",
-    photo: "",
+    photo: "Portfolio Images/Headshot and Featured Image/Headshot.png",
+    workingPhoto: "Portfolio Images/Headshot and Featured Image/Working.jpg",
     initials: "PH",
     heading: "Bringing creatures<br><em>to life in 3D.</em>",
     paragraphs: [
       "I'm a 3D Character Artist based in Orlando, FL, specializing in creature design and full character pipelines for games and animation. I have a deep love for organic sculpting — from apex predators with scale-by-scale surface detail to expressive companion creatures built for film.",
-      "Currently pursuing my BFA in Emerging Media (Animation & Visualization) at UCF, I've contributed creature art and rigging to student short films, completed an independent study in advanced creature design, and taken on freelance character commissions — all while building my full pipeline from anatomy to game-ready asset."
+      "Currently pursuing my BFA in Emerging Media (Animation & Visualization) at UCF, I've contributed creature art, rigging, and animation to student short films, completed a thesis creature showcased at my BFA exhibition, and taken on freelance character commissions — all while building my full pipeline from anatomy to game-ready asset."
     ],
     education: {
       institution: "University of Central Florida",
@@ -677,56 +684,72 @@ const C = {
       types: ["img","img","img","img"]
     },
     {
-      id: "serpent",
+      id: "aetheria",
       title: "Aetheria — Thesis Creature",
       tags: ["Thesis", "Creature", "ZBrush", "UE5"],
       desc: "BFA thesis exhibition piece. Full ZBrush & Maya pipeline synthesizing the power of an American Alligator with the serpentine elegance of a False-Water Cobra and Boa Imperator, balanced by the lean features of a Pine Marten.",
       description: "Aetheria is my BFA thesis piece and the most ambitious project in my portfolio. The creature synthesizes three real-world species — the American Alligator for raw structural power, the False-Water Cobra and Boa Imperator for serpentine elegance in the neck and tail, and the Pine Marten for the lean facial proportions and alert expressiveness.\n\nThe goal was a creature that reads as genuinely biological: every design decision had to be justifiable through real anatomy. The full asset was integrated into Unreal Engine 5 for real-time presentation, and Aetheria was displayed as part of my thesis exhibition in April 2026, seen by hundreds of attendees.",
       images: [
-        "Portfolio Images/Thesis Creature/serpent_faceclose.jpg",
-        "Portfolio Images/Thesis Creature/serpent_sideclose.jpg",
-        "Portfolio Images/Thesis Creature/serpent_sides.jpg",
-        "Portfolio Images/Thesis Creature/serpent_topbottom.jpg",
-        "Portfolio Images/Thesis Creature/sideclose.jpg",
-        "Portfolio Images/Thesis Creature/sides.jpg"
+        "Portfolio Images/Aetheria/Aetheria_ThreeQuarter_Front.png",
+        "Portfolio Images/Aetheria/Aetheria_Front_Mesh.png",
+        "Portfolio Images/Aetheria/Aetheria_Side_Top.png"
       ],
-      types: ["img","img","img","img","img","img"]
+      types: ["img","img","img"]
     },
     {
       id: "zigmol",
       title: "Zigmol — Mol's Morsels",
-      tags: ["Character", "Short Film", "Rigged"],
+      tags: ["Character", "Short Film", "Rigged", "Animated"],
       desc: "Hero creature for student short film. Responsible for sculpt, retopology, rigging, and animation. Final renders delivered on schedule.",
-      description: "Zigmol is the hero creature from Mol's Morsels, a student short film produced at UCF. I handled the full sculpt in ZBrush, retopology in Maya, PBR texturing in Substance 3D Painter, and character rigging. I also took on animation duties for the creature during production.\n\nThe project required constant communication between departments as the rig iterated alongside the animation needs — a real lesson in production collaboration and flexibility. Final renders came in on schedule. Zigmol demanded a balance between expressive character appeal and technical cleanliness, since everything had to hold up in motion.",
+      description: "Zigmol is the hero creature from Mol's Morsels, a student short film produced at UCF. I handled the full sculpt in ZBrush, retopology in Maya, PBR texturing in Substance 3D Painter, character rigging, and animation duties for the creature during production.\n\nThe project required constant communication between departments as the rig iterated alongside the animation needs — a real lesson in production collaboration and flexibility. Final renders came in on schedule. Zigmol demanded a balance between expressive character appeal and technical cleanliness, since everything had to hold up in motion.",
       images: [
-        "Portfolio Images/Zigmol/mol.png",
-        "Portfolio Images/Zigmol/mol2.png",
-        "Portfolio Images/Zigmol/Zigmol3.jpg",
-        "Portfolio Images/Zigmol/Zigmol4.jpg",
-        "Portfolio Images/Zigmol/ZigmolFB.jpg",
-        "Portfolio Images/Zigmol/ZigmolS.jpg"
+        "Portfolio Images/Zigmol/Side_Render_Zigmol.png",
+        "Portfolio Images/Zigmol/TextureRenderZigmol.png",
+        "Portfolio Images/Zigmol/Model_Front_Zigmol.png",
+        "Portfolio Images/Zigmol/Side_Model_Zigmol.png",
+        "Portfolio Images/Zigmol/Top_Bottom_Zigmol.png"
       ],
-      types: ["img","img","img","img","img","img"]
+      types: ["img","img","img","img","img"]
     },
     {
       id: "gar",
       title: "Alligator Gar — Anatomy Study",
       tags: ["Anatomy", "Creature", "ZBrush", "Full Pipeline"],
-      desc: "Anatomy study of the prehistoric alligator gar — fin rays, lateral line, and elongated rostrum sculpted from reference.",
+      desc: "Anatomy study of the prehistoric alligator gar — fin rays, lateral line, and elongated rostrum sculpted from reference. Full production pipeline.",
       description: "This project serves as a comprehensive demonstration of a standard industry production pipeline, directly supporting my ambition to work professionally as a 3D creature artist. By taking this asset from an initial concept sculpt all the way through texturing, posing, and final rendering, I was able to test and troubleshoot technical hand-offs between software; specifically leveraging the new ZBrush-to-Substance integration to increase workflow efficiency.\n\nGrounding the creature's textures in the real-world biology of an albino alligator gar allowed me to push the realism of the design, marrying technical execution with biological accuracy. While there are certainly technical aspects I would approach differently in hindsight, recognizing that this asset originated as a four-hour practice speed sculpt, I am incredibly proud of the final outcome. Ultimately, this piece strengthens my portfolio by proving my ability to rapidly prototype a concept and push it through a complete production pipeline to deliver a fully realized, rigged asset.",
       images: [
-        "Portfolio Images/Alligator Gar/Side Render.jpg",
-        "Portfolio Images/Alligator Gar/Side posed.jpg",
+        "Portfolio Images/Alligator Gar/Side_View.png",
+        "Portfolio Images/Alligator Gar/Front_Model_Gar.png",
+        "Portfolio Images/Alligator Gar/Belly_View_Gar.png",
         "Portfolio Images/Alligator Gar/Face_Close_Up.jpg",
-        "Portfolio Images/Alligator Gar/gar2.jpg",
-        "Portfolio Images/Alligator Gar/garsiode.jpg",
-        "Portfolio Images/Alligator Gar/hih.jpg",
-        "Portfolio Images/Alligator Gar/posed face close up.jpg",
-        "Portfolio Images/Alligator Gar/Scale Close up.jpg",
-        "Portfolio Images/Alligator Gar/sidefih.jpg",
-        "Portfolio Images/Alligator Gar/Wireframe.jpg"
+        "Portfolio Images/Alligator Gar/Gar_Face_Texture.png",
+        "Portfolio Images/Alligator Gar/Scales_Close.png",
+        "Portfolio Images/Alligator Gar/Wireframe.png"
       ],
-      types: ["img","img","img","img","img","img","img","img","img","img"]
+      types: ["img","img","img","img","img","img","img"]
+    },
+    {
+      id: "environment",
+      title: "1st 3D Environment",
+      tags: ["Environment", "Maya", "UE5", "Fall 2024"],
+      desc: "First full 3D environment project — spatial storytelling through asset placement, lighting, and material work.",
+      description: "My first dedicated 3D environment project, completed as a final project for a 3D environments course at UCF. This piece pushed me to think about spatial storytelling — building a believable, atmospheric scene through asset placement, lighting conditions, and cohesive material work.\n\nEnvironment work demands a different discipline than creature work: instead of a single hero asset, every element in the frame has to contribute to a unified mood. This project expanded my overall 3D thinking and gave me a stronger foundation for understanding how real-time environments are structured.",
+      images: [
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_FP.jpg",
+        "Portfolio Images/1st 3D Environment/IMAGE2.jpg",
+        "Portfolio Images/1st 3D Environment/IMAGE3.jpg",
+        "Portfolio Images/1st 3D Environment/IMAGE4.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_001.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_002.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_003.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_004.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_005.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_006.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_007.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_008.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_009.jpg"
+      ],
+      types: ["img","img","img","img","img","img","img","img","img","img","img","img","img"]
     },
     {
       id: "deer",
@@ -735,11 +758,10 @@ const C = {
       desc: "Independent study creature — exploring quadrupedal anatomy and hybrid form-building with hair card integration. Active WIP.",
       description: "This is my independent study creature, an ongoing project giving me dedicated time to push my sculpting and grooming skills outside of a structured class brief. The design combines the skeletal structure and musculature of a white-tailed deer with more fantastical, unsettling proportions — pushing the silhouette toward something that reads as familiar but deeply wrong in a satisfying way.\n\nA major focus of this project is hair card development: I'm building out the creature's coat and surface detailing using hair cards, which is a technique I'm actively refining. This is an in-progress piece — expect updates as the grooming, texturing, and final pose come together.",
       images: [
-        "Portfolio Images/Deer Creature/1.jpg",
-        "Portfolio Images/Deer Creature/2.jpg",
-        "Portfolio Images/Deer Creature/3.jpg"
+        "Portfolio Images/Unique Creature Study WIP/Body_Deer.png",
+        "Portfolio Images/Unique Creature Study WIP/FAce_Deer.png"
       ],
-      types: ["img","img","img"]
+      types: ["img","img"]
     },
     {
       id: "hand",
@@ -748,10 +770,9 @@ const C = {
       desc: "Anatomical hand sculpt studying tendon, knuckle, and surface vein structure. Rendered in Marmoset.",
       description: "An anatomical study of the human hand sculpted in ZBrush and rendered in Marmoset Toolbag. The focus was on structural accuracy — the way metacarpal and phalangeal bones read through skin, tendon routing across the dorsum, and how subcutaneous veins and knuckle creases interact with the surface under different lighting conditions.\n\nThis kind of foundational anatomy work feeds directly into creature design. Understanding how the human hand articulates makes it easier to build and rig creature appendages with convincing flexibility, weight, and organic believability.",
       images: [
-        "Portfolio Images/Hand/HandRender.jpg",
-        "Portfolio Images/Hand/Hand1.jpg"
+        "Portfolio Images/Hand/Hand_Study.png"
       ],
-      types: ["img","img"]
+      types: ["img"]
     }
   ],
   skills: {
@@ -792,14 +813,13 @@ const C = {
     email: "percy.holway@gmail.com",
     artStationUrl: "https://www.artstation.com/percyholway",
     artStationHandle: "artstation.com/percyholway",
-    linkedinUrl: "#",
-    linkedinHandle: "LinkedIn — Add Your URL"
+    linkedinUrl: "https://www.linkedin.com/in/percy-holway/",
+    linkedinHandle: "linkedin.com/in/percy-holway"
   }
 };
 
 /* ══════════════════════════════════════════
-   UTILITY — encode spaces in file paths
-   for GitHub Pages compatibility
+   UTILITY
 ══════════════════════════════════════════ */
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function imgUrl(path){ return path.split('/').map(s=>encodeURIComponent(s)).join('/'); }
@@ -812,11 +832,11 @@ document.getElementById('footer-year').textContent = C.meta.year;
 document.getElementById('footer-name').textContent = C.meta.name;
 
 // Hero
-document.getElementById('hero-eyebrow').textContent = C.hero.eyebrow;
-document.getElementById('hero-line1').textContent   = C.hero.line1;
-document.getElementById('hero-line2').innerHTML     = esc(C.hero.line2) + '<span class="accent">.</span>';
-document.getElementById('hero-desc').innerHTML      = esc(C.hero.descLine1) + '<br><strong>' + esc(C.hero.stack) + '</strong> — full pipeline from concept to game-ready asset.';
-document.getElementById('hero-arstation').href      = C.hero.artStationUrl;
+document.getElementById('hero-eyebrow').textContent  = C.hero.eyebrow;
+document.getElementById('hero-line1').textContent    = C.hero.line1;
+document.getElementById('hero-line2').innerHTML      = esc(C.hero.line2) + '<span class="accent">.</span>';
+document.getElementById('hero-desc').innerHTML       = esc(C.hero.descLine1) + '<br><strong>' + esc(C.hero.stack) + '</strong> — full pipeline from concept to game-ready asset.';
+document.getElementById('hero-artstation').href      = C.hero.artStationUrl;
 
 // About
 document.getElementById('about-years').textContent   = C.about.yearsCreating;
@@ -826,6 +846,10 @@ if (C.about.photo) {
   document.getElementById('about-img-wrap').innerHTML =
     `<img src="${imgUrl(C.about.photo)}" alt="${esc(C.meta.name)}"><div class="about-frame-tl"></div><div class="about-frame-br"></div>`;
 }
+if (C.about.workingPhoto) {
+  document.getElementById('about-visual').insertAdjacentHTML('beforeend',
+    `<div class="about-working"><img src="${imgUrl(C.about.workingPhoto)}" alt="${esc(C.meta.name)} at work"></div>`);
+}
 document.getElementById('about-bio').innerHTML = C.about.paragraphs.map(p=>`<p class="reveal">${p}</p>`).join('');
 document.getElementById('edu-name').textContent = C.about.education.institution;
 document.getElementById('edu-sub').textContent  = C.about.education.degree + ' · ' + C.about.education.detail;
@@ -833,7 +857,7 @@ document.getElementById('about-stats').innerHTML = C.about.stats.map(s=>
   `<div class="stat-item"><div class="stat-num">${esc(s.num)}</div><div class="stat-label">${esc(s.label)}</div></div>`
 ).join('');
 
-// Projects — encode paths for GitHub Pages
+// Projects
 document.getElementById('projects-grid').innerHTML = C.projects.map((p,i)=>`
   <div class="project-card reveal" style="transition-delay:${(i*.07).toFixed(2)}s"
     data-id="${esc(p.id)}">
@@ -850,10 +874,10 @@ document.getElementById('projects-grid').innerHTML = C.projects.map((p,i)=>`
     </div>
   </div>`).join('');
 
-// Skills — chip grid (no progress bars)
+// Skills
 document.getElementById('skills-intro').textContent = C.skills.intro;
 document.getElementById('tools-grid').innerHTML = C.skills.software.map(s=>`<span class="tool-pill">${esc(s)}</span>`).join('');
-document.getElementById('skills-columns').innerHTML = C.skills.groups.map((g,i)=>`
+document.getElementById('skills-columns').innerHTML = C.skills.groups.map(g=>`
   <div class="skill-category">
     <div class="skill-group-title">${esc(g.title)}</div>
     <div class="skill-chip-grid">
@@ -899,15 +923,15 @@ const heroEl = document.getElementById('hero');
 });
 
 /* ══════════════════════════════════════════
-   CURSOR — starts off-screen until first move
+   CURSOR
 ══════════════════════════════════════════ */
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
 let mx=-200,my=-200,rx=-200,ry=-200,moved=false;
+cur.style.opacity='0'; ring.style.opacity='0';
 document.addEventListener('mousemove',e=>{
   mx=e.clientX; my=e.clientY;
   if(!moved){ moved=true; cur.style.opacity='1'; ring.style.opacity='1'; }
 },{ passive:true });
-cur.style.opacity='0'; ring.style.opacity='0';
 document.addEventListener('mouseover',e=>{
   e.target.closest('a,button,.project-card')?ring.classList.add('expand'):ring.classList.remove('expand');
 },{ passive:true });
@@ -938,15 +962,12 @@ const lbDescBlk = document.getElementById('lbDescBlock');
 const lbImgsEl  = document.getElementById('lbImages');
 
 function openLB(proj){
-  // Header
   lbTitleEl.textContent = proj.title;
   lbTagsEl.innerHTML    = proj.tags.map(t=>`<span class="lb-tag">${esc(t)}</span>`).join('');
-  // Description (supports \n\n paragraph breaks)
   const desc  = proj.description || proj.desc || '';
   const paras = desc.split(/\n\n+/).filter(Boolean);
   lbDescEl.innerHTML      = paras.map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
   lbDescBlk.style.display = desc ? '' : 'none';
-  // Images — each in its own section
   const total = proj.images.length;
   lbImgsEl.innerHTML = proj.images.map((rawSrc,i)=>{
     const src   = imgUrl(rawSrc);
@@ -960,7 +981,6 @@ function openLB(proj){
       ${media}
     </div>`;
   }).join('');
-  // Open
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('lbScroll').scrollTop = 0;

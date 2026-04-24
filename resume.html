@@ -7,24 +7,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,900;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── RESET ──────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── VARIABLES — light forest theme ─────── */
 :root {
   --bg:     #f5f8f5;
   --bg2:    #eaf0ea;
   --bg3:    #dfe8df;
   --green:  #2b7a3c;
   --sage:   #3d6b45;
-  --blue:   #2f6570;
   --text:   #0d1e0f;
   --muted:  #456249;
   --border: rgba(43,122,60,0.2);
   --col-l:  220px;
 }
 
-/* ── PAGE SETUP ─────────────────────────── */
 html, body { height: 100%; }
 body {
   background: var(--bg3);
@@ -37,7 +33,6 @@ body {
   print-color-adjust: exact;
 }
 
-/* ── PAGE WRAPPER ───────────────────────── */
 .page {
   width: 8.5in;
   min-height: 11in;
@@ -47,7 +42,6 @@ body {
   grid-template-rows: auto 1fr;
 }
 
-/* ── HEADER ─────────────────────────────── */
 header {
   background: var(--bg2);
   border-bottom: 2px solid var(--green);
@@ -59,267 +53,107 @@ header {
 }
 .header-name {
   font-family: 'Fraunces', serif;
-  font-size: 30pt;
-  font-weight: 900;
-  color: var(--text);
-  line-height: 1;
-  letter-spacing: 0.01em;
+  font-size: 30pt; font-weight: 900;
+  color: var(--text); line-height: 1; letter-spacing: 0.01em;
 }
-.header-name span {
-  color: var(--green);
-  font-style: italic;
-}
+.header-name span { color: var(--green); font-style: italic; }
 .header-title {
-  font-size: 7.5pt;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 0.2rem;
-  font-weight: 600;
+  font-size: 7.5pt; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-top: 0.2rem; font-weight: 600;
 }
 .header-contact {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  align-items: flex-end;
+  text-align: right; display: flex; flex-direction: column;
+  gap: 0.2rem; align-items: flex-end;
 }
-.contact-item {
-  font-size: 7.5pt;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-}
-.contact-item a {
-  color: var(--green);
-  text-decoration: none;
-  font-weight: 500;
-}
+.contact-item { font-size: 7.5pt; color: var(--muted); letter-spacing: 0.04em; }
+.contact-item a { color: var(--green); text-decoration: none; font-weight: 500; }
 
-/* ── BODY COLUMNS ───────────────────────── */
-.body {
-  display: grid;
-  grid-template-columns: var(--col-l) 1fr;
-}
+.body { display: grid; grid-template-columns: var(--col-l) 1fr; }
 
-/* ── SIDEBAR ────────────────────────────── */
 .sidebar {
-  background: var(--bg2);
-  border-right: 1px solid var(--border);
+  background: var(--bg2); border-right: 1px solid var(--border);
   padding: 0.32in 0.26in 0.4in;
 }
+.main { padding: 0.32in 0.4in 0.4in 0.36in; }
 
-/* ── MAIN ───────────────────────────────── */
-.main {
-  padding: 0.32in 0.4in 0.4in 0.36in;
-}
-
-/* ── SECTION TITLE ──────────────────────── */
 .section-title {
-  font-size: 6pt;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.25rem;
+  font-size: 6pt; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 0.5rem; padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-weight: 600;
+  display: flex; align-items: center; gap: 0.4rem; font-weight: 600;
 }
 .section-title::before {
-  content: '';
-  display: block;
-  width: 10px;
-  height: 1.5px;
-  background: var(--green);
-  flex-shrink: 0;
+  content: ''; display: block; width: 10px; height: 1.5px;
+  background: var(--green); flex-shrink: 0;
 }
-.section-block {
-  margin-bottom: 0.42in;
-}
-.section-block:last-child {
-  margin-bottom: 0;
-}
+.section-block { margin-bottom: 0.42in; }
+.section-block:last-child { margin-bottom: 0; }
 
-/* ── SIDEBAR CONTENT ────────────────────── */
 .sidebar-edu-school {
-  font-family: 'Fraunces', serif;
-  font-size: 9pt;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 0.1rem;
+  font-family: 'Fraunces', serif; font-size: 9pt; font-weight: 600;
+  color: var(--text); margin-bottom: 0.1rem;
 }
-.sidebar-edu-degree {
-  font-size: 8pt;
-  color: var(--text);
-  margin-bottom: 0.06rem;
-  line-height: 1.4;
-  font-weight: 400;
-}
-.sidebar-edu-detail {
-  font-size: 7.5pt;
-  color: var(--muted);
-  line-height: 1.4;
-}
-.sidebar-edu-minor {
-  font-size: 7.5pt;
-  color: var(--muted);
-  font-style: italic;
-  margin-top: 0.08rem;
-}
+.sidebar-edu-degree { font-size: 8pt; color: var(--text); margin-bottom: 0.06rem; line-height: 1.4; }
+.sidebar-edu-detail { font-size: 7.5pt; color: var(--muted); line-height: 1.4; }
+.sidebar-edu-minor { font-size: 7.5pt; color: var(--muted); font-style: italic; margin-top: 0.08rem; }
 
-.skill-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.28rem;
-}
+.skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.28rem; }
 .skill-list li {
-  font-size: 7.5pt;
-  color: var(--text);
-  padding-left: 0.7rem;
-  position: relative;
-  line-height: 1.4;
+  font-size: 7.5pt; color: var(--text);
+  padding-left: 0.7rem; position: relative; line-height: 1.4;
 }
 .skill-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.45em;
-  width: 3px;
-  height: 3px;
-  background: var(--green);
-  border-radius: 50%;
+  content: ''; position: absolute; left: 0; top: 0.45em;
+  width: 3px; height: 3px; background: var(--green); border-radius: 50%;
 }
 
-.software-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.22rem;
-}
+.software-pills { display: flex; flex-wrap: wrap; gap: 0.22rem; }
 .pill {
-  font-size: 6.5pt;
-  letter-spacing: 0.05em;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 0.1rem 0.32rem;
-  border-radius: 2px;
-  line-height: 1.6;
+  font-size: 6.5pt; letter-spacing: 0.05em;
+  border: 1px solid var(--border); color: var(--muted);
+  padding: 0.1rem 0.32rem; border-radius: 2px; line-height: 1.6;
   background: var(--bg);
 }
 
-.cert-item {
-  font-size: 7.5pt;
-  color: var(--text);
-  margin-bottom: 0.12rem;
-  line-height: 1.4;
-  font-weight: 500;
-}
-.cert-sub {
-  font-size: 7pt;
-  color: var(--muted);
-}
+.cert-item { font-size: 7.5pt; color: var(--text); margin-bottom: 0.12rem; line-height: 1.4; font-weight: 500; }
+.cert-sub { font-size: 7pt; color: var(--muted); }
 
-.award-item {
-  margin-bottom: 0.3rem;
-}
-.award-name {
-  font-size: 7.5pt;
-  color: var(--text);
-  font-weight: 500;
-  line-height: 1.3;
-}
-.award-sub {
-  font-size: 7pt;
-  color: var(--muted);
-  line-height: 1.3;
-}
+.award-item { margin-bottom: 0.3rem; }
+.award-name { font-size: 7.5pt; color: var(--text); font-weight: 500; line-height: 1.3; }
+.award-sub { font-size: 7pt; color: var(--muted); line-height: 1.3; }
 
-/* ── MAIN CONTENT ───────────────────────── */
-.entry {
-  margin-bottom: 0.24in;
-}
-.entry:last-child {
-  margin-bottom: 0;
-}
-
+.entry { margin-bottom: 0.24in; }
+.entry:last-child { margin-bottom: 0; }
 .entry-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin-bottom: 0.08rem;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 0.5rem; margin-bottom: 0.08rem;
 }
 .entry-title {
-  font-family: 'Fraunces', serif;
-  font-size: 9.5pt;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.3;
+  font-family: 'Fraunces', serif; font-size: 9.5pt; font-weight: 600;
+  color: var(--text); line-height: 1.3;
 }
-.entry-date {
-  font-size: 7pt;
-  color: var(--green);
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-  font-weight: 600;
-}
-.entry-subtitle {
-  font-size: 7.5pt;
-  color: var(--muted);
-  margin-bottom: 0.26rem;
-  font-style: italic;
-  line-height: 1.3;
-}
-.entry-bullets {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-}
+.entry-date { font-size: 7pt; color: var(--green); letter-spacing: 0.08em; white-space: nowrap; font-weight: 600; }
+.entry-subtitle { font-size: 7.5pt; color: var(--muted); margin-bottom: 0.26rem; font-style: italic; line-height: 1.3; }
+.entry-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.18rem; }
 .entry-bullets li {
-  font-size: 7.8pt;
-  color: var(--text);
-  padding-left: 0.85rem;
-  position: relative;
-  line-height: 1.55;
+  font-size: 7.8pt; color: var(--text);
+  padding-left: 0.85rem; position: relative; line-height: 1.55;
 }
 .entry-bullets li::before {
-  content: '·';
-  position: absolute;
-  left: 0.2rem;
-  color: var(--green);
-  font-size: 10pt;
-  line-height: 1.2;
-  font-weight: 700;
+  content: '·'; position: absolute; left: 0.2rem;
+  color: var(--green); font-size: 10pt; line-height: 1.2; font-weight: 700;
 }
 
-/* ── HIGHLIGHT TAG ──────────────────────── */
 .highlight {
-  display: inline;
-  background: rgba(43,122,60,0.1);
-  color: var(--green);
-  padding: 0.05rem 0.25rem;
-  border-radius: 2px;
-  font-size: 6.5pt;
-  letter-spacing: 0.06em;
-  vertical-align: middle;
-  margin-left: 0.3rem;
-  font-style: normal;
-  font-weight: 600;
-  text-transform: uppercase;
-  border: 1px solid rgba(43,122,60,0.2);
+  display: inline; background: rgba(43,122,60,0.1); color: var(--green);
+  padding: 0.05rem 0.25rem; border-radius: 2px;
+  font-size: 6.5pt; letter-spacing: 0.06em; vertical-align: middle;
+  margin-left: 0.3rem; font-style: normal; font-weight: 600;
+  text-transform: uppercase; border: 1px solid rgba(43,122,60,0.2);
 }
 
-/* ── RULE ───────────────────────────────── */
-.rule {
-  height: 1px;
-  background: var(--border);
-  margin: 0.16in 0;
-}
+.rule { height: 1px; background: var(--border); margin: 0.16in 0; }
 
-/* ── PRINT ──────────────────────────────── */
 @media print {
   @page { size: letter; margin: 0; }
   body { background: var(--bg2); }
@@ -327,24 +161,19 @@ header {
   .screen-bar { display: none; }
   a { color: var(--green) !important; }
 }
-
-/* ── SCREEN HELPER ──────────────────────── */
 @media screen {
   body { padding: 0.2in 0 0.35in; }
-  .page {
-    box-shadow: 0 2px 24px rgba(0,0,0,0.12), 0 8px 48px rgba(0,0,0,0.08);
-  }
+  .page { box-shadow: 0 2px 24px rgba(0,0,0,0.12), 0 8px 48px rgba(0,0,0,0.08); }
 }
 </style>
 </head>
 <body>
 
-<!-- Screen-only nav bar -->
 <div class="screen-bar" style="width:8.5in;margin:0 auto 0.12in;display:flex;align-items:center;justify-content:space-between;padding:0.1in 0;">
-  <a href="index.html" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:7pt;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;" onmouseover="this.style.color='#2b7a3c'" onmouseout="this.style.color='#456249'">
+  <a href="index.html" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:7pt;letter-spacing:.16em;text-transform:uppercase;color:#456249;text-decoration:none;" onmouseover="this.style.color='#2b7a3c'" onmouseout="this.style.color='#456249'">
     ← Back to Portfolio
   </a>
-  <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:7pt;color:var(--muted);letter-spacing:.06em;">
+  <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:7pt;color:#456249;letter-spacing:.06em;">
     File → Print → Save as PDF &nbsp;·&nbsp; No need to enable "Background graphics" with this theme
   </span>
 </div>
@@ -374,17 +203,17 @@ header {
       <div class="contact-item">
         <a href="index.html">percyholway.github.io/portfolio</a>
       </div>
+      <div class="contact-item">
+        <a href="https://www.linkedin.com/in/percy-holway/">linkedin.com/in/percy-holway</a>
+      </div>
     </div>
   </header>
   <!-- ═══════════════════════════════════════════════════ -->
 
-  <!-- ── BODY ───────────────────────────── -->
   <div class="body">
 
-    <!-- ─ SIDEBAR ─────────────────────── -->
     <aside class="sidebar">
 
-      <!-- Education -->
       <div class="section-block">
         <div class="section-title">Education</div>
         <div class="sidebar-edu-school">University of Central Florida</div>
@@ -393,7 +222,6 @@ header {
         <div class="sidebar-edu-detail" style="margin-top:0.25rem;">Expected May 2026</div>
       </div>
 
-      <!-- Technical Skills -->
       <div class="section-block">
         <div class="section-title">Technical Skills</div>
         <ul class="skill-list">
@@ -411,7 +239,6 @@ header {
         </ul>
       </div>
 
-      <!-- Software -->
       <div class="section-block">
         <div class="section-title">Software</div>
         <div class="software-pills">
@@ -430,14 +257,12 @@ header {
         </div>
       </div>
 
-      <!-- Certifications -->
       <div class="section-block">
         <div class="section-title">Certifications</div>
         <div class="cert-item">Adobe Certified Professional</div>
         <div class="cert-sub">in Adobe After Effects · Certiport</div>
       </div>
 
-      <!-- Awards & Organizations -->
       <div class="section-block">
         <div class="section-title">Awards &amp; Orgs</div>
         <div class="award-item">
@@ -462,14 +287,11 @@ header {
 
     </aside>
 
-    <!-- ─ MAIN ───────────────────────── -->
     <main class="main">
 
-      <!-- Featured Projects -->
       <div class="section-block">
         <div class="section-title">Featured Projects</div>
 
-        <!-- Aetheria / Thesis -->
         <div class="entry">
           <div class="entry-header">
             <div class="entry-title">
@@ -486,7 +308,6 @@ header {
           </ul>
         </div>
 
-        <!-- Mol's Morsels -->
         <div class="entry">
           <div class="entry-header">
             <div class="entry-title">
@@ -502,7 +323,6 @@ header {
           </ul>
         </div>
 
-        <!-- Python Challenge / Croc Docs -->
         <div class="entry">
           <div class="entry-header">
             <div class="entry-title">
@@ -514,12 +334,11 @@ header {
           <div class="entry-subtitle">Scriptwriter &amp; 2D Concept Artist — The Croc Docs</div>
           <ul class="entry-bullets">
             <li>Co-wrote the script for an instructional video produced for Florida's Python Challenge, targeting all registered participants with guidance on the ethical and humane euthanasia of invasive Burmese pythons.</li>
-            <li>Created 2D concept art and visual references used throughout the production to communicate key procedural steps clearly to a general audience.</li>
+            <li>Created 2D concept art and visual references used throughout production to communicate key procedural steps clearly to a general audience.</li>
             <li>Collaborated with the production team on content accuracy, visual tone, and pacing to ensure the video met both educational and compliance standards for conservation outreach.</li>
           </ul>
         </div>
 
-        <!-- Dr. Phillips Exhibition -->
         <div class="entry">
           <div class="entry-header">
             <div class="entry-title">Dr. Phillips Performing Arts Center Exhibition</div>
@@ -535,11 +354,9 @@ header {
 
       <div class="rule"></div>
 
-      <!-- Experience -->
       <div class="section-block">
         <div class="section-title">Experience</div>
 
-        <!-- Freelance -->
         <div class="entry">
           <div class="entry-header">
             <div class="entry-title">Freelance Character Artist · Self-Employed</div>
@@ -553,7 +370,6 @@ header {
           </ul>
         </div>
 
-        <!-- UCF Marketing -->
         <div class="entry">
           <div class="entry-header">
             <div class="entry-title">Marketing Strategist · UCF Office of Academic Advocacy</div>
@@ -569,9 +385,9 @@ header {
       </div>
 
     </main>
-  </div><!-- end .body -->
+  </div>
 
-</div><!-- end .page -->
+</div>
 
 </body>
 </html>
