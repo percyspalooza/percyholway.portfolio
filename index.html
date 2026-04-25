@@ -214,6 +214,7 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .project-card:hover .proj-overlay { opacity: 1; }
 .project-card:hover .proj-img img { transform: scale(1.06); }
+.project-card:hover .proj-hover-title { opacity:1; transform:translateY(0); }
 .proj-img { width:100%; overflow:hidden; background:var(--bg3); position:relative; }
 .proj-img img {
   width: 100%; display: block;
@@ -230,6 +231,16 @@ section { padding: 8rem 5rem; position: relative; }
   border:1px solid var(--green); border-radius:50%;
   display:flex; align-items:center; justify-content:center;
   color:var(--green); font-size:1.4rem;
+}
+.proj-hover-title {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:.65rem 1rem .7rem;
+  background:linear-gradient(to top, rgba(7,14,8,.92) 60%, transparent);
+  font-family:'Fraunces',serif; font-size:.92rem; font-weight:700;
+  color:var(--text); letter-spacing:.01em;
+  opacity:0; transform:translateY(6px);
+  transition:opacity .28s ease, transform .28s ease;
+  pointer-events:none;
 }
 .proj-info { padding: 1.2rem 1.3rem 1.4rem; }
 .proj-tags { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:.65rem; }
@@ -917,6 +928,7 @@ document.getElementById('projects-grid').innerHTML = C.projects.map((p,i)=>`
       <img src="${imgUrl(p.images[0])}" alt="${esc(p.title)}" loading="lazy"
         onerror="this.parentElement.style.minHeight='180px'">
       <div class="proj-overlay"><div class="proj-overlay-btn">+</div></div>
+      <div class="proj-hover-title">${esc(p.title)}</div>
     </div>
     <div class="proj-info">
       <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${esc(t)}</span>`).join('')}</div>
