@@ -256,8 +256,8 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .lightbox.open { display:flex; }
 .lb-panel {
-  width:min(900px,100vw); height:100vh;
-  background:var(--bg); border-left:1px solid var(--border);
+  width:100vw; height:100vh;
+  background:var(--bg);
   display:flex; flex-direction:column; overflow:hidden;
   transform:translateX(100%); transition:transform .38s cubic-bezier(.22,1,.36,1);
 }
@@ -309,8 +309,29 @@ section { padding: 8rem 5rem; position: relative; }
 .lb-img-label::before { content:''; display:block; width:10px; height:1px; background:var(--border); }
 .lb-img-section img {
   width:100%; display:block; background:var(--bg3); border:1px solid var(--border);
+  cursor:zoom-in;
 }
 .lb-img-section video { width:100%; display:block; background:#000; }
+/* ── FULL-SCREEN IMAGE OVERLAY ── */
+.img-fullscreen {
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,.96);
+  display:none; align-items:center; justify-content:center;
+  cursor:zoom-out;
+}
+.img-fullscreen.open { display:flex; }
+.img-fullscreen img {
+  max-width:100vw; max-height:100vh;
+  object-fit:contain; display:block; cursor:zoom-out;
+}
+.img-fs-close {
+  position:absolute; top:1.2rem; right:1.5rem;
+  background:none; border:1px solid rgba(255,255,255,.2); color:rgba(255,255,255,.6);
+  width:36px; height:36px; border-radius:2px; font-size:.9rem;
+  display:flex; align-items:center; justify-content:center;
+  cursor:none; transition:border-color .2s, color .2s;
+}
+.img-fs-close:hover { border-color:#fff; color:#fff; }
 
 /* ── ABOUT ───────────────────────────────── */
 #about { background: var(--bg); border-top: 1px solid var(--border); }
@@ -673,8 +694,8 @@ const C = {
       id: "hector",
       title: "Hector — Eel Creature Model",
       tags: ["Creature", "Full Pipeline", "PBR Textured", "2025"],
-      desc: "Full creature pipeline — ZBrush sculpt, Maya retopology & rigging prep, PBR texturing in Substance Painter. Dynamic pose showcasing scale work and fin detail.",
-      description: "Hector began as an exploration of deep-sea creature anatomy — specifically how elongated fish bodies like morays translate into a character-readable biped without losing their aquatic identity. The full pipeline ran from initial gesture sculpt in ZBrush through retopology in Maya, PBR texturing in Substance 3D Painter, and final render setup in Marmoset Toolbag.\n\nScale patterning, fin ray structure, and the iridescent sheen of the skin were all grounded in reference photography of live moray eels. The dynamic posed render was a deliberate choice to communicate personality and weight — showing Hector mid-motion rather than in a neutral T-pose.",
+      desc: "My first creature model — inspired by the fang tooth moray eel. Full pipeline: ZBrush sculpt, Maya retopo, Substance textures, Maya posing and rendering.",
+      description: "Hector was my very first creature model and the piece that made me realize creature modeling was the path I wanted to pursue. The design was directly inspired by the fang tooth moray eel — its alien silhouette, fang-lined jaw, and deeply unsettling proportions felt like the perfect starting point for a biped creature.\n\nThe full pipeline ran in order: T-pose blockout and sculpt in ZBrush, retopology in Maya, texturing in Substance 3D Painter, then back to Maya for posing and final rendering. Scale patterning and the skin's iridescent quality were grounded in close reference study of the real eel. The dynamic pose was a deliberate choice to communicate weight and personality from the very first project.",
       images: [
         "Portfolio Images/Hector/EelLad01.png",
         "Portfolio Images/Hector/EelLad02.png",
@@ -687,8 +708,8 @@ const C = {
       id: "aetheria",
       title: "Aetheria — Thesis Creature",
       tags: ["Thesis", "Creature", "ZBrush", "UE5"],
-      desc: "BFA thesis exhibition piece. Full ZBrush & Maya pipeline synthesizing the power of an American Alligator with the serpentine elegance of a False-Water Cobra and Boa Imperator, balanced by the lean features of a Pine Marten.",
-      description: "Aetheria is my BFA thesis piece and the most ambitious project in my portfolio. The creature synthesizes three real-world species — the American Alligator for raw structural power, the False-Water Cobra and Boa Imperator for serpentine elegance in the neck and tail, and the Pine Marten for the lean facial proportions and alert expressiveness.\n\nThe goal was a creature that reads as genuinely biological: every design decision had to be justifiable through real anatomy. The full asset was integrated into Unreal Engine 5 for real-time presentation, and Aetheria was displayed as part of my thesis exhibition in April 2026, seen by hundreds of attendees.",
+      desc: "BFA thesis exhibition piece — biological realism meets otherworldly energy. Alligator structure, cobra/boa serpentine flow, pine marten's long lean build. Color palette inspired by White Sands National Park.",
+      description: "Aetheria is my BFA thesis creature and the most ambitious piece in my portfolio. The design synthesizes three real-world species: the American Alligator for structural power and mass, the False-Water Cobra and Boa Imperator for the serpentine elegance of the neck and tail, and the Pine Marten for its long, lean body build and sharp, expressive facial structure.\n\nThe guiding creative intention was biological realism fused with an otherworldly, mystical energy. The color palette was directly inspired by White Sands National Park — pale, luminous, almost bleached whites and soft warm neutrals that feel alien and pristine at the same time. Every proportion decision had to hold up under zoological scrutiny, while still feeling like something that could only exist in myth.\n\nAetheria was displayed as part of my BFA thesis exhibition in April 2026, seen by hundreds of attendees.",
       images: [
         "Portfolio Images/Aetheria/Aetheria_ThreeQuarter_Front.png",
         "Portfolio Images/Aetheria/Aetheria_Front_Mesh.png",
@@ -700,8 +721,8 @@ const C = {
       id: "zigmol",
       title: "Zigmol — Mol's Morsels",
       tags: ["Character", "Short Film", "Rigged", "Animated"],
-      desc: "Hero creature for student short film. Responsible for sculpt, retopology, rigging, and animation. Final renders delivered on schedule.",
-      description: "Zigmol is the hero creature from Mol's Morsels, a student short film produced at UCF. I handled the full sculpt in ZBrush, retopology in Maya, PBR texturing in Substance 3D Painter, character rigging, and animation duties for the creature during production.\n\nThe project required constant communication between departments as the rig iterated alongside the animation needs — a real lesson in production collaboration and flexibility. Final renders came in on schedule. Zigmol demanded a balance between expressive character appeal and technical cleanliness, since everything had to hold up in motion.",
+      desc: "Hero creature for student short film. Responsible for sculpt, retopology, rigging, and animation.",
+      description: "Zigmol is the hero creature from Mol's Morsels, a student short film produced at UCF. I handled the full sculpt in ZBrush, retopology in Maya, PBR texturing in Substance 3D Painter, character rigging, and animation duties for the creature during production.\n\nThe project required constant communication between departments as the rig iterated alongside animation needs — a real lesson in production collaboration and flexibility. Zigmol demanded a balance between expressive character appeal and technical cleanliness, since everything had to hold up in motion.",
       images: [
         "Portfolio Images/Zigmol/Side_Render_Zigmol.png",
         "Portfolio Images/Zigmol/TextureRenderZigmol.png",
@@ -715,8 +736,8 @@ const C = {
       id: "gar",
       title: "Alligator Gar — Anatomy Study",
       tags: ["Anatomy", "Creature", "ZBrush", "Full Pipeline"],
-      desc: "Anatomy study of the prehistoric alligator gar — fin rays, lateral line, and elongated rostrum sculpted from reference. Full production pipeline.",
-      description: "This project serves as a comprehensive demonstration of a standard industry production pipeline, directly supporting my ambition to work professionally as a 3D creature artist. By taking this asset from an initial concept sculpt all the way through texturing, posing, and final rendering, I was able to test and troubleshoot technical hand-offs between software; specifically leveraging the new ZBrush-to-Substance integration to increase workflow efficiency.\n\nGrounding the creature's textures in the real-world biology of an albino alligator gar allowed me to push the realism of the design, marrying technical execution with biological accuracy. While there are certainly technical aspects I would approach differently in hindsight, recognizing that this asset originated as a four-hour practice speed sculpt, I am incredibly proud of the final outcome. Ultimately, this piece strengthens my portfolio by proving my ability to rapidly prototype a concept and push it through a complete production pipeline to deliver a fully realized, rigged asset.",
+      desc: "What began as a 4-hour timed speed sculpt became a full production pipeline piece — texturing, posing, and rendering the prehistoric alligator gar.",
+      description: "This project started as a practice speed sculpt — I gave myself four hours to block out and push the alligator gar as far as I could. What came out of that session had enough potential that I decided to keep going: polishing the sculpt, refining the design, and running it through a full production pipeline.\n\nGrounding the textures in the real-world biology of an albino alligator gar — the mottled pale coloring, the scale density, the elongated rostrum — pushed the realism of the design and gave me hands-on experience with the ZBrush-to-Substance workflow. The asset is not fully rigged yet, but rigging it is on the roadmap.",
       images: [
         "Portfolio Images/Alligator Gar/Side_View.png",
         "Portfolio Images/Alligator Gar/Front_Model_Gar.png",
@@ -732,8 +753,8 @@ const C = {
       id: "environment",
       title: "1st 3D Environment",
       tags: ["Environment", "Maya", "UE5", "Fall 2024"],
-      desc: "First full 3D environment project — spatial storytelling through asset placement, lighting, and material work.",
-      description: "My first dedicated 3D environment project, completed as a final project for a 3D environments course at UCF. This piece pushed me to think about spatial storytelling — building a believable, atmospheric scene through asset placement, lighting conditions, and cohesive material work.\n\nEnvironment work demands a different discipline than creature work: instead of a single hero asset, every element in the frame has to contribute to a unified mood. This project expanded my overall 3D thinking and gave me a stronger foundation for understanding how real-time environments are structured.",
+      desc: "My first ever 3D class — the foundation I built everything else on throughout my degree.",
+      description: "This was my first 3D class ever taken. Before this project, I had no experience with 3D software or spatial thinking in a digital environment — this was the starting point for everything that followed.\n\nLooking back, this piece represents the foundation I built off of as I worked through my two-year degree, moving into creature sculpting, rigging, animation, and real-time pipelines. It's included here because every pipeline starts somewhere.",
       images: [
         "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_FP.jpg",
         "Portfolio Images/1st 3D Environment/IMAGE2.jpg",
@@ -753,10 +774,10 @@ const C = {
     },
     {
       id: "deer",
-      title: "Deer Creature — Independent Study",
+      title: "Swamp Prey — Independent Study",
       tags: ["Independent Study", "Creature", "ZBrush", "Hair Cards", "WIP"],
-      desc: "Independent study creature — exploring quadrupedal anatomy and hybrid form-building with hair card integration. Active WIP.",
-      description: "This is my independent study creature, an ongoing project giving me dedicated time to push my sculpting and grooming skills outside of a structured class brief. The design combines the skeletal structure and musculature of a white-tailed deer with more fantastical, unsettling proportions — pushing the silhouette toward something that reads as familiar but deeply wrong in a satisfying way.\n\nA major focus of this project is hair card development: I'm building out the creature's coat and surface detailing using hair cards, which is a technique I'm actively refining. This is an in-progress piece — expect updates as the grooming, texturing, and final pose come together.",
+      desc: "Independent study creature design inspired by capybaras, tufted deer, and swamp-dwelling species. Semi-aquatic adaptations throughout. Active WIP.",
+      description: "Swamp Prey is my independent study creature — a design grounded in the anatomy and adaptations of swamp and marsh-dwelling species. The primary inspirations are the capybara and the tufted deer, with additional reference drawn from other semi-aquatic fauna.\n\nThe design has a logic to it: a unique nose structure adapted for semi-aquatic living, splayed feet that are slightly webbed for soft-ground stability, and a thick neck built for low-browsing and water movement. Every feature is motivated by the environment the creature would inhabit.\n\nOn the technical side, I'm building hair cards using GS Curve Tools and FiberShop and rendering in Unreal Engine 5, with an eye toward Marmoset Toolbag for future renders. This is an active WIP.",
       images: [
         "Portfolio Images/Unique Creature Study WIP/Body_Deer.png",
         "Portfolio Images/Unique Creature Study WIP/FAce_Deer.png"
@@ -767,8 +788,8 @@ const C = {
       id: "hand",
       title: "Human Hand Study",
       tags: ["Anatomy", "ZBrush", "Render"],
-      desc: "Anatomical hand sculpt studying tendon, knuckle, and surface vein structure. Rendered in Marmoset.",
-      description: "An anatomical study of the human hand sculpted in ZBrush and rendered in Marmoset Toolbag. The focus was on structural accuracy — the way metacarpal and phalangeal bones read through skin, tendon routing across the dorsum, and how subcutaneous veins and knuckle creases interact with the surface under different lighting conditions.\n\nThis kind of foundational anatomy work feeds directly into creature design. Understanding how the human hand articulates makes it easier to build and rig creature appendages with convincing flexibility, weight, and organic believability.",
+      desc: "Écorché-style anatomy study of the human hand — bone, tendon, and surface structure. Rendered in Maya.",
+      description: "An anatomy study of the human hand sculpted in ZBrush, approaching it in an écorché fashion — working from the underlying skeletal and tendon structure outward to understand how everything reads at the surface. The focus was on the metacarpals and phalanges visible through skin, tendon routing across the dorsum, and how knuckle creases and subcutaneous veins interact under light.\n\nRendered in Maya. This kind of foundational work feeds directly into creature design — understanding how the human hand articulates makes it much easier to build and rig creature appendages with convincing weight and organic believability.",
       images: [
         "Portfolio Images/Hand/Hand_Study.png"
       ],
@@ -780,7 +801,7 @@ const C = {
     software: [
       "ZBrush","Autodesk Maya","Substance 3D Painter","Unreal Engine 5",
       "After Effects","Premiere Pro","Photoshop","Illustrator",
-      "ToonBoom Harmony","Marmoset Toolbag","Marvelous Designer","Blender"
+      "ToonBoom Harmony","Marmoset Toolbag","Blender"
     ],
     groups: [
       {
@@ -1001,6 +1022,34 @@ document.getElementById('projects-grid').addEventListener('click', e=>{
     const proj = C.projects.find(p=>p.id===card.dataset.id);
     if(proj) openLB(proj);
   }
+});
+
+/* ══════════════════════════════════════════
+   FULL-SCREEN IMAGE VIEWER
+══════════════════════════════════════════ */
+const fsOverlay = document.createElement('div');
+fsOverlay.className = 'img-fullscreen';
+fsOverlay.innerHTML = '<button class="img-fs-close" id="imgFsClose">✕</button><img id="imgFsImg" src="" alt="">';
+document.body.appendChild(fsOverlay);
+
+function openFS(src, alt){
+  document.getElementById('imgFsImg').src = src;
+  document.getElementById('imgFsImg').alt = alt || '';
+  fsOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFS(){
+  fsOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('imgFsClose').onclick = e => { e.stopPropagation(); closeFS(); };
+fsOverlay.addEventListener('click', e => { if(e.target === fsOverlay || e.target === document.getElementById('imgFsImg')) closeFS(); });
+document.getElementById('lbImages').addEventListener('click', e => {
+  const img = e.target.closest('.lb-img-section img');
+  if(img) openFS(img.src, img.alt);
+});
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && fsOverlay.classList.contains('open')) closeFS();
 });
 
 /* ══════════════════════════════════════════
