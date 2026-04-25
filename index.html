@@ -247,7 +247,7 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .proj-count::before { content:''; display:block; width:4px; height:4px; background:var(--green); border-radius:50%; }
 
-/* ── LIGHTBOX — ArtStation-style side panel ── */
+/* ── LIGHTBOX — ArtStation two-column layout ── */
 .lightbox {
   position:fixed; inset:0; z-index:1000;
   background:rgba(5,10,6,.72);
@@ -256,22 +256,37 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .lightbox.open { display:flex; }
 .lb-panel {
-  width:100vw; height:100vh;
+  width:min(90vw,1400px); height:100vh;
   background:var(--bg);
-  display:flex; flex-direction:column; overflow:hidden;
+  display:flex; flex-direction:row;
   transform:translateX(100%); transition:transform .38s cubic-bezier(.22,1,.36,1);
 }
 .lightbox.open .lb-panel { transform:translateX(0); }
+
+/* Left — scrollable image gallery */
+.lb-main {
+  flex:1; overflow-y:auto; scroll-behavior:smooth;
+  background:var(--bg3); min-width:0;
+}
+
+/* Right — sticky info sidebar */
+.lb-sidebar {
+  width:300px; flex-shrink:0;
+  display:flex; flex-direction:column;
+  border-left:1px solid var(--border);
+  background:var(--bg); overflow-y:auto;
+}
 .lb-header {
-  padding:1.35rem 2.2rem; flex-shrink:0;
+  padding:1.35rem 1.6rem; flex-shrink:0;
   background:var(--bg2); border-bottom:1px solid var(--border);
-  display:flex; align-items:flex-start; justify-content:space-between; gap:1rem;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:.75rem;
+  position:sticky; top:0; z-index:2;
 }
-.lb-header-left { flex:1; min-width:0; }
 .lb-title {
-  font-family:'Fraunces',serif; font-size:1.25rem; font-weight:700;
-  color:var(--text); line-height:1.25; margin-bottom:.45rem;
+  font-family:'Fraunces',serif; font-size:1.05rem; font-weight:700;
+  color:var(--text); line-height:1.3;
 }
+.lb-tags-wrap { padding:.9rem 1.6rem; border-bottom:1px solid var(--border); }
 .lb-tags { display:flex; gap:.35rem; flex-wrap:wrap; }
 .lb-tag {
   font-size:.57rem; letter-spacing:.14em; text-transform:uppercase;
@@ -280,38 +295,48 @@ section { padding: 8rem 5rem; position: relative; }
 }
 .lb-close {
   background:none; border:1px solid var(--border); color:var(--muted);
-  width:34px; height:34px; border-radius:2px; flex-shrink:0;
+  width:30px; height:30px; border-radius:2px; flex-shrink:0;
   display:flex; align-items:center; justify-content:center;
-  cursor:none; transition:color .2s,border-color .2s; font-size:.95rem;
+  cursor:none; transition:color .2s,border-color .2s; font-size:.85rem;
 }
 .lb-close:hover { color:var(--green); border-color:var(--green); }
-.lb-scroll { flex:1; overflow-y:auto; scroll-behavior:smooth; }
-.lb-desc-block {
-  padding:2rem 2.2rem 1.8rem; border-bottom:1px solid var(--border);
-}
+.lb-desc-block { padding:1.6rem 1.6rem 2rem; }
 .lb-desc-label {
   font-size:.6rem; letter-spacing:.28em; text-transform:uppercase;
   color:var(--green); margin-bottom:1rem;
   display:flex; align-items:center; gap:.5rem;
 }
 .lb-desc-label::before { content:''; display:block; width:14px; height:1px; background:var(--green); }
-.lb-desc-text { font-size:.9rem; color:var(--muted); line-height:1.9; max-width:700px; }
+.lb-desc-text { font-size:.85rem; color:var(--muted); line-height:1.9; }
 .lb-desc-text p+p { margin-top:1rem; }
-.lb-img-section {
-  padding:1.8rem 2.2rem; border-bottom:1px solid var(--border);
-}
-.lb-img-section:last-child { border-bottom:none; padding-bottom:3rem; }
+
+.lb-img-section { padding:1.2rem; border-bottom:1px solid var(--border); }
+.lb-img-section:last-child { border-bottom:none; padding-bottom:2.5rem; }
 .lb-img-label {
   font-size:.58rem; letter-spacing:.22em; text-transform:uppercase;
-  color:var(--muted); margin-bottom:.9rem;
+  color:var(--muted); margin-bottom:.7rem;
   display:flex; align-items:center; gap:.5rem;
 }
 .lb-img-label::before { content:''; display:block; width:10px; height:1px; background:var(--border); }
 .lb-img-section img {
-  width:100%; display:block; background:var(--bg3); border:1px solid var(--border);
+  width:100%; display:block; background:var(--bg3);
   cursor:zoom-in;
 }
 .lb-img-section video { width:100%; display:block; background:#000; }
+.lb-img-section iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
+.lb-coming-soon {
+  width:100%; aspect-ratio:16/9; background:var(--bg);
+  border:1px solid var(--border);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem;
+}
+.lb-coming-soon-label {
+  font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--green);
+}
+.lb-coming-soon-title {
+  font-family:'Fraunces',serif; font-size:1.6rem; font-weight:700;
+  color:var(--text); text-align:center; line-height:1.2;
+}
+.lb-coming-soon-sub { font-size:.78rem; color:var(--muted); letter-spacing:.06em; }
 /* ── FULL-SCREEN IMAGE OVERLAY ── */
 .img-fullscreen {
   position:fixed; inset:0; z-index:2000;
@@ -502,22 +527,26 @@ footer {
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- LIGHTBOX — ArtStation-style side panel -->
+<!-- LIGHTBOX — ArtStation two-column layout -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
   <div class="lb-panel" id="lbPanel">
-    <div class="lb-header">
-      <div class="lb-header-left">
+    <!-- Left: scrollable image gallery -->
+    <div class="lb-main" id="lbScroll">
+      <div id="lbImages"></div>
+    </div>
+    <!-- Right: info sidebar -->
+    <div class="lb-sidebar">
+      <div class="lb-header">
         <div class="lb-title" id="lbTitle"></div>
+        <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+      </div>
+      <div class="lb-tags-wrap">
         <div class="lb-tags" id="lbTags"></div>
       </div>
-      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
-    </div>
-    <div class="lb-scroll" id="lbScroll">
       <div class="lb-desc-block" id="lbDescBlock">
         <div class="lb-desc-label">About this project</div>
         <div class="lb-desc-text" id="lbDesc"></div>
       </div>
-      <div id="lbImages"></div>
     </div>
   </div>
 </div>
@@ -712,10 +741,11 @@ const C = {
       description: "Aetheria is my BFA thesis creature and the most ambitious piece in my portfolio. The design synthesizes three real-world species: the American Alligator for structural power and mass, the False-Water Cobra and Boa Imperator for the serpentine elegance of the neck and tail, and the Pine Marten for its long, lean body build and sharp, expressive facial structure.\n\nThe guiding creative intention was biological realism fused with an otherworldly, mystical energy. The color palette was directly inspired by White Sands National Park — pale, luminous, almost bleached whites and soft warm neutrals that feel alien and pristine at the same time. Every proportion decision had to hold up under zoological scrutiny, while still feeling like something that could only exist in myth.\n\nAetheria was displayed as part of my BFA thesis exhibition in April 2026, seen by hundreds of attendees.",
       images: [
         "Portfolio Images/Aetheria/Aetheria_ThreeQuarter_Front.png",
-        "Portfolio Images/Aetheria/Aetheria_Front_Mesh.png",
-        "Portfolio Images/Aetheria/Aetheria_Side_Top.png"
+        "Portfolio Images/Aetheria/Aetheria_Side_Top.png",
+        "https://www.youtube.com/embed/Mi2wFqrfHTY",
+        "Portfolio Images/Aetheria/Aetheria_Front_Mesh.png"
       ],
-      types: ["img","img","img"]
+      types: ["img","img","youtube","img"]
     },
     {
       id: "zigmol",
@@ -728,9 +758,10 @@ const C = {
         "Portfolio Images/Zigmol/TextureRenderZigmol.png",
         "Portfolio Images/Zigmol/Model_Front_Zigmol.png",
         "Portfolio Images/Zigmol/Side_Model_Zigmol.png",
-        "Portfolio Images/Zigmol/Top_Bottom_Zigmol.png"
+        "Portfolio Images/Zigmol/Top_Bottom_Zigmol.png",
+        ""
       ],
-      types: ["img","img","img","img","img"]
+      types: ["img","img","img","img","img","comingsoon"]
     },
     {
       id: "gar",
@@ -739,13 +770,13 @@ const C = {
       desc: "What began as a 4-hour timed speed sculpt became a full production pipeline piece — texturing, posing, and rendering the prehistoric alligator gar.",
       description: "This project started as a practice speed sculpt — I gave myself four hours to block out and push the alligator gar as far as I could. What came out of that session had enough potential that I decided to keep going: polishing the sculpt, refining the design, and running it through a full production pipeline.\n\nGrounding the textures in the real-world biology of an albino alligator gar — the mottled pale coloring, the scale density, the elongated rostrum — pushed the realism of the design and gave me hands-on experience with the ZBrush-to-Substance workflow. The asset is not fully rigged yet, but rigging it is on the roadmap.",
       images: [
-        "Portfolio Images/Alligator Gar/Side_View.png",
+        "Portfolio Images/Alligator Gar/POSED_Gar.png",
+        "Portfolio Images/Alligator Gar/Ref.png",
         "Portfolio Images/Alligator Gar/Front_Model_Gar.png",
+        "Portfolio Images/Alligator Gar/Side_View.png",
         "Portfolio Images/Alligator Gar/Belly_View_Gar.png",
-        "Portfolio Images/Alligator Gar/Face_Close_Up.jpg",
         "Portfolio Images/Alligator Gar/Gar_Face_Texture.png",
-        "Portfolio Images/Alligator Gar/Scales_Close.png",
-        "Portfolio Images/Alligator Gar/Wireframe.png"
+        "Portfolio Images/Alligator Gar/Scales_Close.png"
       ],
       types: ["img","img","img","img","img","img","img"]
     },
@@ -991,12 +1022,24 @@ function openLB(proj){
   lbDescBlk.style.display = desc ? '' : 'none';
   const total = proj.images.length;
   lbImgsEl.innerHTML = proj.images.map((rawSrc,i)=>{
-    const src   = imgUrl(rawSrc);
     const type  = proj.types[i];
     const label = `${String(i+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
-    const media = type==='video'
-      ? `<video src="${src}" controls style="width:100%;display:block;background:#000;"></video>`
-      : `<img src="${src}" alt="${esc(proj.title)} — view ${i+1}" loading="${i===0?'eager':'lazy'}">`;
+    let media;
+    if(type==='youtube'){
+      media = `<iframe src="${rawSrc}" allowfullscreen loading="lazy"></iframe>`;
+    } else if(type==='comingsoon'){
+      media = `<div class="lb-coming-soon">
+        <div class="lb-coming-soon-label">Coming Soon</div>
+        <div class="lb-coming-soon-title">Short Film<br>Coming Soon</div>
+        <div class="lb-coming-soon-sub">Mol's Morsels — Final Cut</div>
+      </div>`;
+    } else if(type==='video'){
+      const src = imgUrl(rawSrc);
+      media = `<video src="${src}" controls></video>`;
+    } else {
+      const src = imgUrl(rawSrc);
+      media = `<img src="${src}" alt="${esc(proj.title)} — view ${i+1}" loading="${i===0?'eager':'lazy'}">`;
+    }
     return `<div class="lb-img-section">
       <div class="lb-img-label">${label}</div>
       ${media}
