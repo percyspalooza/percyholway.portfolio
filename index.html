@@ -199,13 +199,18 @@ section { padding: 8rem 5rem; position: relative; }
 /* ── PROJECTS ────────────────────────────── */
 #projects { background: var(--bg2); border-top: 1px solid var(--border); }
 .projects-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:4rem; }
-.masonry-grid { columns: 3 280px; column-gap: 1.2rem; }
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  align-items: start;
+}
 .project-card {
-  break-inside: avoid; display: inline-block; width: 100%;
+  width: 100%;
   background: var(--bg3); border: 1px solid var(--border);
   position: relative; overflow: hidden;
   transition: border-color .35s, transform .4s, box-shadow .35s;
-  cursor: none; margin-bottom: 1.2rem;
+  cursor: none;
 }
 .project-card:hover {
   border-color: rgba(108,196,125,.38);
@@ -517,7 +522,7 @@ footer {
   section{padding:6rem 2rem;}
   .about-grid{grid-template-columns:1fr; gap:4rem;}
   .about-badge{right:0;}
-  .masonry-grid{columns:2 200px;}
+  .masonry-grid{grid-template-columns:repeat(2,1fr);}
   .skill-categories{grid-template-columns:1fr;}
   footer{flex-direction:column;gap:1.5rem;padding:2rem;text-align:center;}
   .form-row{grid-template-columns:1fr;}
