@@ -186,7 +186,7 @@ section { padding: 8rem 5rem; position: relative; overflow: hidden; }
 /* ── SECTION ATMOSPHERE ──────────────────── */
 .section-grid-overlay {
   position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  opacity: .013;
+  opacity: .022;
   background-image:
     linear-gradient(rgba(108,196,125,1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(108,196,125,1) 1px, transparent 1px);
@@ -199,6 +199,8 @@ section { padding: 8rem 5rem; position: relative; overflow: hidden; }
 section > *:not(.section-grid-overlay):not(.section-ambient):not(.firefly) {
   position: relative; z-index: 1;
 }
+/* ensure section fireflies always render as circles */
+section > .firefly { border-radius: 50%; }
 .section-tag {
   font-size: .68rem; letter-spacing: .3em; text-transform: uppercase;
   color: var(--green); margin-bottom: 1rem;
@@ -1015,7 +1017,7 @@ const heroEl = document.getElementById('hero');
   const sections = [
     {
       id: 'projects',
-      gradient: 'radial-gradient(ellipse 58% 65% at 82% 12%, rgba(108,196,125,.055), transparent 58%), radial-gradient(ellipse 42% 48% at 8% 82%, rgba(121,178,197,.04), transparent 55%)',
+      gradient: 'radial-gradient(ellipse 58% 65% at 82% 12%, rgba(108,196,125,.09), transparent 58%), radial-gradient(ellipse 42% 48% at 8% 82%, rgba(121,178,197,.065), transparent 55%)',
       flies: [
         {x:7,  y:20, s:2, c:'#6cc47d', dur:9,  delay:1,   dx:18,  dy:-28, peak:.5},
         {x:75, y:16, s:3, c:'#9dc4a4', dur:12, delay:2.5, dx:-14, dy:22,  peak:.45},
@@ -1027,7 +1029,7 @@ const heroEl = document.getElementById('hero');
     },
     {
       id: 'about',
-      gradient: 'radial-gradient(ellipse 50% 55% at 12% 28%, rgba(108,196,125,.06), transparent 55%), radial-gradient(ellipse 45% 50% at 88% 78%, rgba(157,196,164,.045), transparent 60%)',
+      gradient: 'radial-gradient(ellipse 50% 55% at 12% 28%, rgba(108,196,125,.095), transparent 55%), radial-gradient(ellipse 45% 50% at 88% 78%, rgba(157,196,164,.07), transparent 60%)',
       flies: [
         {x:5,  y:36, s:3, c:'#6cc47d', dur:11, delay:2,   dx:24,  dy:-22, peak:.55},
         {x:84, y:22, s:2, c:'#9dc4a4', dur:9,  delay:.5,  dx:-18, dy:28,  peak:.5},
@@ -1038,7 +1040,7 @@ const heroEl = document.getElementById('hero');
     },
     {
       id: 'skills',
-      gradient: 'radial-gradient(ellipse 62% 68% at 22% 48%, rgba(108,196,125,.065), transparent 55%), radial-gradient(ellipse 36% 42% at 92% 18%, rgba(121,178,197,.05), transparent 52%)',
+      gradient: 'radial-gradient(ellipse 62% 68% at 22% 48%, rgba(108,196,125,.1), transparent 55%), radial-gradient(ellipse 36% 42% at 92% 18%, rgba(121,178,197,.075), transparent 52%)',
       flies: [
         {x:11, y:28, s:3, c:'#6cc47d', dur:10, delay:0,   dx:20,  dy:-30, peak:.6},
         {x:90, y:53, s:2, c:'#9dc4a4', dur:13, delay:2,   dx:-16, dy:24,  peak:.45},
@@ -1050,7 +1052,7 @@ const heroEl = document.getElementById('hero');
     },
     {
       id: 'contact',
-      gradient: 'radial-gradient(ellipse 52% 58% at 78% 32%, rgba(108,196,125,.055), transparent 56%), radial-gradient(ellipse 40% 48% at 18% 72%, rgba(157,196,164,.04), transparent 60%)',
+      gradient: 'radial-gradient(ellipse 52% 58% at 78% 32%, rgba(108,196,125,.09), transparent 56%), radial-gradient(ellipse 40% 48% at 18% 72%, rgba(157,196,164,.065), transparent 60%)',
       flies: [
         {x:8,  y:46, s:2, c:'#6cc47d', dur:12, delay:1,   dx:22,  dy:-28, peak:.5},
         {x:73, y:20, s:3, c:'#9dc4a4', dur:9,  delay:2.5, dx:-14, dy:22,  peak:.55},
@@ -1080,7 +1082,7 @@ const heroEl = document.getElementById('hero');
     sec.flies.forEach(function(f){
       var ff = document.createElement('div');
       ff.className = 'firefly';
-      ff.style.cssText = 'left:'+f.x+'%;top:'+f.y+'%;width:'+f.s+'px;height:'+f.s+'px;background:'+f.c+';box-shadow:0 0 '+(f.s*3)+'px '+f.c+';--dur:'+f.dur+'s;--delay:'+f.delay+'s;--dx:'+f.dx+'px;--dy:'+f.dy+'px;--peak:'+f.peak+';animation-delay:'+f.delay+'s;animation-duration:'+f.dur+'s;position:absolute;z-index:1;';
+      ff.style.cssText = 'left:'+f.x+'%;top:'+f.y+'%;width:'+f.s+'px;height:'+f.s+'px;background:'+f.c+';border-radius:50%;box-shadow:0 0 '+(f.s*4)+'px '+(f.s*2)+'px '+f.c+';--dur:'+f.dur+'s;--delay:'+f.delay+'s;--dx:'+f.dx+'px;--dy:'+f.dy+'px;--peak:'+f.peak+';animation-delay:'+f.delay+'s;animation-duration:'+f.dur+'s;position:absolute;z-index:1;';
       el.appendChild(ff);
     });
   });
