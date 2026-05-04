@@ -181,26 +181,7 @@ body > nav {
 @keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
 /* ── SHARED ──────────────────────────────── */
-section { padding: 8rem 5rem; position: relative; overflow: hidden; }
-
-/* ── SECTION ATMOSPHERE ──────────────────── */
-.section-grid-overlay {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  opacity: .022;
-  background-image:
-    linear-gradient(rgba(108,196,125,1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(108,196,125,1) 1px, transparent 1px);
-  background-size: 80px 80px;
-}
-.section-ambient {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-}
-/* push all direct section content above the atmosphere layers */
-section > *:not(.section-grid-overlay):not(.section-ambient):not(.firefly) {
-  position: relative; z-index: 1;
-}
-/* ensure section fireflies always render as circles */
-section > .firefly { border-radius: 50%; }
+section { padding: 8rem 5rem; position: relative; }
 .section-tag {
   font-size: .68rem; letter-spacing: .3em; text-transform: uppercase;
   color: var(--green); margin-bottom: 1rem;
@@ -594,7 +575,7 @@ footer {
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="resume.html" class="nav-resume">Resume</a></li>
+    <li><a href="resume.html" class="nav-resume">Résumé</a></li>
   </ul>
 </nav>
 
@@ -710,7 +691,7 @@ footer {
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#contact">Contact</a>
-    <a href="resume.html">Resume</a>
+    <a href="resume.html">Résumé</a>
   </nav>
 </footer>
 
@@ -818,14 +799,18 @@ const C = {
     {
       id: "deer",
       title: "Swamp Prey — Independent Study",
-      tags: ["Independent Study", "Creature", "ZBrush", "Hair Cards", "WIP"],
-      desc: "Original creature design for an independent study — anatomy driven by semi-aquatic adaptation logic. In-progress grooming pipeline using GS Curve Tools hair cards and FiberShop, targeting UE5 and Marmoset renders.",
-      description: "Swamp Prey is an original creature developed for an independent study, designed from the anatomy of semi-aquatic fauna outward. Primary anatomical reference: capybara and tufted deer, with supplementary study of marsh-adapted species for limb structure and foot morphology.\n\nEvery design decision is environmentally motivated: a modified nasal structure for semi-aquatic respiration, splayed webbed feet engineered for soft-ground stability and low-drag water movement, and cervical mass proportioned for low-browsing behavior. The design reads as biologically coherent within a swamp or marshland ecosystem.\n\nActive production pipeline: ZBrush sculpt, Maya retopology, with grooming development underway using GS Curve Tools for hair card generation and FiberShop for strand-level grooming. Target renders in Unreal Engine 5 and Marmoset Toolbag.",
+      tags: ["Independent Study", "Creature", "ZBrush", "Hair Cards", "Groomed"],
+      desc: "Original creature design — anatomy driven by semi-aquatic adaptation logic. Full grooming pipeline using GS Curve Tools hair cards and FiberShop, rendered in Marmoset Toolbag.",
+      description: "Swamp Prey is an original creature developed for an independent study, designed from the anatomy of semi-aquatic fauna outward. Primary anatomical reference: capybara and tufted deer, with supplementary study of marsh-adapted species for limb structure and foot morphology.\n\nEvery design decision is environmentally motivated: a modified nasal structure for semi-aquatic respiration, splayed webbed feet engineered for soft-ground stability and low-drag water movement, and cervical mass proportioned for low-browsing behavior. The design reads as biologically coherent within a swamp or marshland ecosystem.\n\nFull production pipeline: ZBrush sculpt, Maya retopology, grooming built with GS Curve Tools for hair card generation and FiberShop for strand-level grooming. Final beauty renders in Marmoset Toolbag.",
       images: [
+        "Portfolio Images/Unique Creature Study WIP/Final_01.png",
+        "Portfolio Images/Unique Creature Study WIP/FinalShot.0000.png",
+        "Portfolio Images/Unique Creature Study WIP/FinalShot.0002.png",
+        "Portfolio Images/Unique Creature Study WIP/close_up.png",
         "Portfolio Images/Unique Creature Study WIP/Body_Deer.png",
         "Portfolio Images/Unique Creature Study WIP/FAce_Deer.png"
       ],
-      types: ["img","img"]
+      types: ["img","img","img","img","img","img"]
     },
     {
       id: "hand",
@@ -838,6 +823,29 @@ const C = {
       ],
       types: ["img"]
     },
+    {
+      id: "environment",
+      title: "1st 3D Environment",
+      tags: ["Environment", "Maya", "UE5", "Fall 2024"],
+      desc: "Introductory 3D environment — Maya modeling, UV layout, and real-time scene assembly in Unreal Engine 5. Included as a pipeline baseline showing progression to current creature work.",
+      description: "First formal 3D environment project, completed in the opening semester of the BFA program. Covered foundational Maya modeling and UV layout, lighting setup, and real-time scene assembly and optimization in Unreal Engine 5.\n\nIncluded as a deliberate reference point — the technical and artistic distance between this piece and the creature work that follows it reflects the scope of pipeline development across the degree. Every production skill in this portfolio was built on the fundamentals established here.",
+      images: [
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_FP.jpg",
+        "Portfolio Images/1st 3D Environment/IMAGE2.jpg",
+        "Portfolio Images/1st 3D Environment/IMAGE3.jpg",
+        "Portfolio Images/1st 3D Environment/IMAGE4.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_001.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_002.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_003.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_004.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_005.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_006.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_007.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_008.jpg",
+        "Portfolio Images/1st 3D Environment/HolwayP_DIG4323C_Fall24_P3_009.jpg"
+      ],
+      types: ["img","img","img","img","img","img","img","img","img","img","img","img","img"]
+    }
   ],
   skills: {
     intro: "A full-pipeline creature artist, from organic sculpting and hair systems in ZBrush to game-ready asset integration in Unreal Engine 5. Adobe Certified Professional in Adobe After Effects.",
@@ -986,84 +994,6 @@ const heroEl = document.getElementById('hero');
   el.style.cssText=`left:${f.x}%;top:${f.y}%;width:${f.s}px;height:${f.s}px;background:${f.c};box-shadow:0 0 ${f.s*3}px ${f.c};--dur:${f.dur}s;--delay:${f.delay}s;--dx:${f.dx}px;--dy:${f.dy}px;--peak:${f.peak};animation-delay:${f.delay}s;animation-duration:${f.dur}s;`;
   heroEl.appendChild(el);
 });
-
-/* ══════════════════════════════════════════
-   SECTION ATMOSPHERE — grid + glow + fireflies
-══════════════════════════════════════════ */
-(function(){
-  const sections = [
-    {
-      id: 'projects',
-      gradient: 'radial-gradient(ellipse 58% 65% at 82% 12%, rgba(108,196,125,.09), transparent 58%), radial-gradient(ellipse 42% 48% at 8% 82%, rgba(121,178,197,.065), transparent 55%)',
-      flies: [
-        {x:7,  y:20, s:2, c:'#6cc47d', dur:9,  delay:1,   dx:18,  dy:-28, peak:.5},
-        {x:75, y:16, s:3, c:'#9dc4a4', dur:12, delay:2.5, dx:-14, dy:22,  peak:.45},
-        {x:92, y:60, s:2, c:'#79b2c5', dur:8,  delay:4,   dx:-22, dy:-18, peak:.55},
-        {x:30, y:80, s:2, c:'#6cc47d', dur:14, delay:.8,  dx:28,  dy:-12, peak:.4},
-        {x:57, y:7,  s:3, c:'#6cc47d', dur:10, delay:3,   dx:12,  dy:32,  peak:.6},
-        {x:17, y:54, s:2, c:'#79b2c5', dur:11, delay:5,   dx:-8,  dy:-24, peak:.4},
-      ]
-    },
-    {
-      id: 'about',
-      gradient: 'radial-gradient(ellipse 50% 55% at 12% 28%, rgba(108,196,125,.095), transparent 55%), radial-gradient(ellipse 45% 50% at 88% 78%, rgba(157,196,164,.07), transparent 60%)',
-      flies: [
-        {x:5,  y:36, s:3, c:'#6cc47d', dur:11, delay:2,   dx:24,  dy:-22, peak:.55},
-        {x:84, y:22, s:2, c:'#9dc4a4', dur:9,  delay:.5,  dx:-18, dy:28,  peak:.5},
-        {x:67, y:74, s:2, c:'#6cc47d', dur:13, delay:3.5, dx:14,  dy:-32, peak:.45},
-        {x:40, y:90, s:3, c:'#79b2c5', dur:8,  delay:1.5, dx:-22, dy:-16, peak:.6},
-        {x:22, y:10, s:2, c:'#6cc47d', dur:10, delay:4,   dx:16,  dy:20,  peak:.4},
-      ]
-    },
-    {
-      id: 'skills',
-      gradient: 'radial-gradient(ellipse 62% 68% at 22% 48%, rgba(108,196,125,.1), transparent 55%), radial-gradient(ellipse 36% 42% at 92% 18%, rgba(121,178,197,.075), transparent 52%)',
-      flies: [
-        {x:11, y:28, s:3, c:'#6cc47d', dur:10, delay:0,   dx:20,  dy:-30, peak:.6},
-        {x:90, y:53, s:2, c:'#9dc4a4', dur:13, delay:2,   dx:-16, dy:24,  peak:.45},
-        {x:54, y:84, s:2, c:'#79b2c5', dur:9,  delay:1.5, dx:18,  dy:-18, peak:.5},
-        {x:79, y:11, s:3, c:'#6cc47d', dur:11, delay:3,   dx:-24, dy:28,  peak:.55},
-        {x:34, y:62, s:2, c:'#6cc47d', dur:8,  delay:4.5, dx:12,  dy:-22, peak:.4},
-        {x:61, y:36, s:2, c:'#79b2c5', dur:14, delay:1,   dx:-18, dy:-14, peak:.45},
-      ]
-    },
-    {
-      id: 'contact',
-      gradient: 'radial-gradient(ellipse 52% 58% at 78% 32%, rgba(108,196,125,.09), transparent 56%), radial-gradient(ellipse 40% 48% at 18% 72%, rgba(157,196,164,.065), transparent 60%)',
-      flies: [
-        {x:8,  y:46, s:2, c:'#6cc47d', dur:12, delay:1,   dx:22,  dy:-28, peak:.5},
-        {x:73, y:20, s:3, c:'#9dc4a4', dur:9,  delay:2.5, dx:-14, dy:22,  peak:.55},
-        {x:89, y:76, s:2, c:'#79b2c5', dur:11, delay:.5,  dx:-20, dy:-18, peak:.4},
-        {x:44, y:14, s:2, c:'#6cc47d', dur:8,  delay:3.5, dx:18,  dy:30,  peak:.6},
-        {x:27, y:87, s:3, c:'#6cc47d', dur:13, delay:2,   dx:24,  dy:-24, peak:.45},
-      ]
-    }
-  ];
-
-  sections.forEach(function(sec){
-    var el = document.getElementById(sec.id);
-    if(!el) return;
-
-    // Gradient glow
-    var amb = document.createElement('div');
-    amb.className = 'section-ambient';
-    amb.style.background = sec.gradient;
-    el.insertBefore(amb, el.firstChild);
-
-    // Grid
-    var grid = document.createElement('div');
-    grid.className = 'section-grid-overlay';
-    el.insertBefore(grid, el.firstChild);
-
-    // Fireflies
-    sec.flies.forEach(function(f){
-      var ff = document.createElement('div');
-      ff.className = 'firefly';
-      ff.style.cssText = 'left:'+f.x+'%;top:'+f.y+'%;width:'+f.s+'px;height:'+f.s+'px;background:'+f.c+';border-radius:50%;box-shadow:0 0 '+(f.s*4)+'px '+(f.s*2)+'px '+f.c+';--dur:'+f.dur+'s;--delay:'+f.delay+'s;--dx:'+f.dx+'px;--dy:'+f.dy+'px;--peak:'+f.peak+';animation-delay:'+f.delay+'s;animation-duration:'+f.dur+'s;position:absolute;z-index:1;';
-      el.appendChild(ff);
-    });
-  });
-})();
 
 /* ══════════════════════════════════════════
    CURSOR
